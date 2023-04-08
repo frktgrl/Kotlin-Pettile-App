@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ChatFragment"
+    android:id="@+id/fragment_chat">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/chatText"
+            android:layout_width="281dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:hint="Message"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chatRecyclerView"
+            app:layout_constraintVertical_bias="0.197" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintStart_toEndOf="@+id/chatText"
+            app:layout_constraintTop_toBottomOf="@+id/chatRecyclerView"
+            app:layout_constraintVertical_bias="0.221" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chatRecyclerView"
+            android:layout_width="400dp"
+            android:layout_height="421dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="1dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

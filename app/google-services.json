@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "971956998265",
+    "project_id": "appettileapp",
+    "storage_bucket": "appettileapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971956998265:android:f0e67e12adc170b63644a8",
+        "android_client_info": {
+          "package_name": "com.example.apppettileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "971956998265-glb2p90534b3006r7iql0tfcstvma4md.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoraApLAF9QI5HVwxyzPqKKc3h8Wvj84E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "971956998265-glb2p90534b3006r7iql0tfcstvma4md.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/recyclerEmailText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:text="TextView"
+        android:textAlignment="viewStart"
+        android:textSize="20sp" />
+
+
+        <ImageView
+            android:id="@+id/recyclerImageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:paddingTop="5dp"
+            tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:weightSum="3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/likeButton"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="#03FFFFFF"
+                app:icon="@drawable/ic_likes_selector"
+                app:iconTint="#000000"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="-3dp" />
+
+            <Button
+                android:id="@+id/commentButton"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                app:icon="@drawable/ic_comments_border"
+                app:iconTint="#000000"
+                app:layout_constraintStart_toEndOf="@+id/likeButton"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <Button
+                android:id="@+id/shareButton"
+                android:layout_width="60dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                app:icon="@drawable/ic_share"
+                app:iconTint="#000000"
+                app:layout_constraintStart_toEndOf="@+id/commentButton"
+                tools:layout_editor_absoluteY="0dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/recyclerCommentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="TextView"
+        android:textSize="18dp" />
+</LinearLayout>
