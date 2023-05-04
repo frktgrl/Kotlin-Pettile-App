@@ -82,7 +82,10 @@ class SearchFragment : Fragment() {
                                 val username = document.get("username") as String
                                 val userEmail = document.get("userEmail") as String
                                 val downloadUrl = document.get("downloadUrl") as String
-                                val userSearch = UserSearch(name, username,userEmail ,downloadUrl)
+                                val userId = document.get("userId") as String
+                                val followers = document.get("followers").toString()
+                                val following = document.get("following").toString()
+                                val userSearch = UserSearch(name, username,userEmail ,downloadUrl,userId,followers,following)
                                 userArrayList.add(userSearch)
                             }
                             adapter!!.notifyDataSetChanged()

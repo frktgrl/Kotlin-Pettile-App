@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apppettileapp.databinding.RecyclerRowSearchBinding
-import com.example.apppettileapp.fragment.HomeFragmentDirections
 import com.example.apppettileapp.fragment.SearchFragmentDirections
 import com.example.apppettileapp.model.UserSearch
 import com.google.firebase.auth.FirebaseAuth
@@ -41,14 +40,17 @@ class SearchRecyclerAdapter(private val userArrayList : ArrayList<UserSearch>) :
         holder.binding.userNameText.text = userArrayList[position].username
         Picasso.get().load(userArrayList[position].downloadUrl).into(holder.binding.userPhotoView)
 
+        //Profile Fragmenta Veri Gönderme
         val action = SearchFragmentDirections.actionSearchFragmentToProfileViewFragment(
-            userEmail = userArrayList[position].userEmail,
             name = userArrayList[position].name,
             username = userArrayList[position].username,
-            downloadUrl = userArrayList[position].downloadUrl
+            downloadUrl = userArrayList[position].downloadUrl,
+            userId = userArrayList[position].userId,
+            followers = userArrayList[position].followers,
+            following = userArrayList[position].following,
 
         )
-        if (userArrayList[position].userEmail != "${auth.currentUser?.email.toString()}") {
+        if (userArrayList[position].userId != "${auth.currentUser?.uid}") {
 
             holder.binding.cardView.setOnClickListener {
                 Navigation.findNavController(holder.itemView).navigate(action)

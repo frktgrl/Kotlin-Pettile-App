@@ -98,10 +98,13 @@ class PostFragment : Fragment() {
                             postMap.put("userEmail",auth.currentUser!!.email!!)
                             postMap.put("comment",binding.commentText.text.toString())
                             postMap.put("date",com.google.firebase.Timestamp.now())
+                            postMap.put("userId",auth.currentUser?.uid!!)
+                            postMap.put("like", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
+                            postMap.put("recomment", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
 
                             firestore.collection("Posts").add(postMap).addOnSuccessListener {
 
-                                Toast.makeText(requireActivity(),"Yukleme Basarılı", Toast.LENGTH_LONG).show()
+                                Toast.makeText(requireActivity(),"Upload Successful !", Toast.LENGTH_LONG).show()
                                 val intent = Intent(activity, FeedActivity::class.java)
                                 startActivity(intent)
 

@@ -71,12 +71,12 @@ class HomeFragment : Fragment() {
                         val documents = snapshot.documents
                         for (document in documents) {
                             val comment = document.get("comment") as String
-                            val useremail = document.get("userEmail") as String
                             val downloadUrl = document.get("downloadUrl") as String
-                            //val timestamp = document.get("date") as Timestamp
-                            //val date = timestamp.toDate()
+                            val userId = document.get("userId") as String
+                            val like = document.get("like") as List<String> // like alanını dizi olarak okuyun
+                            val recomment = document.get("recomment") as List<String> // recomment alanını dizi olarak okuyun
 
-                            val post = Post(useremail,comment, downloadUrl)
+                            val post = Post(comment, downloadUrl, userId, like, recomment)
                             postArrayList.add(post)
                         }
                         adapter!!.notifyDataSetChanged()

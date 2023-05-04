@@ -26,8 +26,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/recyclerEmailText"
                 app:srcCompat="@drawable/baseline_person_24"
-                app:civ_border_color="@color/black"
-                 />
+                />
 
             <TextView
                 android:id="@+id/recyclerEmailText"

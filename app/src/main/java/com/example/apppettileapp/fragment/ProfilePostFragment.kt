@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.apppettileapp.adapter.UserProfileRecyclerAdapter
+import com.example.apppettileapp.adapter.ProfilePostRecyclerAdapter
 import com.example.apppettileapp.databinding.FragmentProfilePostBinding
 import com.example.apppettileapp.model.Post
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +22,7 @@ class ProfilePostFragment : Fragment() {
     private lateinit var binding: FragmentProfilePostBinding
 
     val postArrayList: ArrayList<Post> = ArrayList()
-    var adapter: UserProfileRecyclerAdapter? = null
+    var adapter: ProfilePostRecyclerAdapter? = null
 
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class ProfilePostFragment : Fragment() {
 
         binding.userProfileRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        adapter = UserProfileRecyclerAdapter(postArrayList)
+        adapter = ProfilePostRecyclerAdapter(postArrayList)
         binding.userProfileRecyclerView.adapter = adapter
 
         auth = FirebaseAuth.getInstance()
@@ -49,7 +49,7 @@ class ProfilePostFragment : Fragment() {
 
     fun getDataFromFireStore() {
 
-        db.collection("Posts").whereEqualTo("userEmail", "${auth.currentUser?.email.toString()}")
+        db.collection("Posts").whereEqualTo("userId", "${auth.currentUser?.uid}")
             .orderBy("date", Query.Direction.DESCENDING).
             addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
@@ -64,16 +64,12 @@ class ProfilePostFragment : Fragment() {
                             val documents = snapshot.documents
                             for (document in documents) {
                                 val comment = document.get("comment") as String
-                                val useremail = document.get("userEmail") as String
                                 val downloadUrl = document.get("downloadUrl") as String
-                                //val timestamp = document.get("date") as Timestamp
-                                //val date = timestamp.toDate()
+                                val userId = document.get("userId") as String
+                                val like = document.get("like") as List<String> // like alanını dizi olarak okuyun
+                                val recomment = document.get("recomment") as List<String> // recomment alanını dizi olarak okuyun
 
-                                println(comment)
-                                println(useremail)
-                                println(downloadUrl)
-
-                                val post = Post(useremail, comment, downloadUrl)
+                                val post = Post(comment, downloadUrl, userId, like, recomment)
                                 postArrayList.add(post)
                             }
                             adapter!!.notifyDataSetChanged()

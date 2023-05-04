@@ -35,8 +35,8 @@
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" >
         <action
-            android:id="@+id/action_notificationFragment_to_chatFragment"
-            app:destination="@id/chatFragment" />
+            android:id="@+id/action_notificationFragment_to_chatViewFragment"
+            app:destination="@id/chatViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -53,16 +53,6 @@
         android:name="com.example.apppettileapp.fragment.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
-        <action
-            android:id="@+id/action_chatFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/profileViewFragment"
-        android:name="com.example.apppettileapp.fragment.ProfileViewFragment"
-        android:label="Profile View"
-        tools:layout="@layout/fragment_profile_view" >
         <argument
             android:name="userEmail"
             app:argType="string" />
@@ -75,9 +65,48 @@
         <argument
             android:name="downloadUrl"
             app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_chatFragment_to_chatViewFragment"
+            app:destination="@id/chatViewFragment" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileViewFragment"
+        android:name="com.example.apppettileapp.fragment.ProfileViewFragment"
+        android:label="Profile View"
+        tools:layout="@layout/fragment_profile_view" >
+
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="downloadUrl"
+            app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+        <argument
+            android:name="followers"
+            app:argType="string" />
+        <argument
+            android:name="following"
+            app:argType="string" />
 
         <action
-            android:id="@+id/action_profileViewFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            android:id="@+id/action_profileViewFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/chatViewFragment"
+        android:name="com.example.apppettileapp.fragment.ChatViewFragment"
+        android:label="fragment_chat_view"
+        tools:layout="@layout/fragment_chat_view" />
 </navigation>

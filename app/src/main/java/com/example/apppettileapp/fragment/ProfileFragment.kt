@@ -73,10 +73,10 @@ class ProfileFragment : Fragment() {
     fun getDataFromFirestoreUser() {
 
         db.collection("Users")
-            .whereEqualTo("userEmail", "${auth.currentUser?.email.toString()}")
+            .whereEqualTo("userId", "${auth.currentUser?.uid}")
             .addSnapshotListener { snapshot, exception ->
             if (exception != null) {
-                Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_LONG).show()
             } else {
 
                 if (snapshot != null) {
@@ -89,9 +89,11 @@ class ProfileFragment : Fragment() {
                             val username = document.get("username") as String
                             val biography = document.get("biography") as String
                             val downloadUrl = document.get("downloadUrl") as String
+                            val userId = document.get("userId") as String
                             //val timestamp = document.get("date") as Timestamp
                             //val date = timestamp.toDate()
 
+                            println(userId)
                             println(name)
                             println(username)
                             println(biography)

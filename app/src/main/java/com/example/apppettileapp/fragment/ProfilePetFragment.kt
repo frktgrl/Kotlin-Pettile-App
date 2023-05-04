@@ -49,7 +49,7 @@ class ProfilePetFragment : Fragment() {
     fun getDataFromFirestoreUserPets() {
 
         db.collection("Pets")
-            .whereEqualTo("userEmail", "${auth.currentUser?.email.toString()}")
+            .whereEqualTo("userId", "${auth.currentUser?.uid}")
             .orderBy("date",Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {

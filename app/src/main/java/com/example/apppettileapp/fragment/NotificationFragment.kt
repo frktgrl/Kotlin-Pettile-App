@@ -28,8 +28,8 @@ class NotificationFragment : Fragment() {
 
         binding.chatImage.setOnClickListener {
 
-            val action = NotificationFragmentDirections.actionNotificationFragmentToChatFragment()
-            Navigation.findNavController(requireView()).navigate(action)
+            val action = NotificationFragmentDirections.actionNotificationFragmentToChatViewFragment()
+           Navigation.findNavController(requireView()).navigate(action)
         }
 
         return view

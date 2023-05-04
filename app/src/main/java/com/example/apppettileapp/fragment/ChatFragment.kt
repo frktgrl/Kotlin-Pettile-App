@@ -7,13 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.apppettileapp.R
 import com.example.apppettileapp.adapter.ChatRecyclerAdapter
 import com.example.apppettileapp.databinding.FragmentChatBinding
-import com.example.apppettileapp.databinding.FragmentHomeBinding
 import com.example.apppettileapp.model.Chat
-import com.example.apppettileapp.model.Post
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,8 +32,6 @@ class ChatFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-
-
     }
 
     override fun onCreateView(
@@ -46,6 +40,26 @@ class ChatFragment : Fragment() {
     ): View? {
         _binding = FragmentChatBinding.inflate(inflater,container,false)
         val view = binding.root
+
+
+        // Bundle'dan verileri alma
+        val userEmail = arguments?.getString("userEmail")
+        val username = arguments?.getString("username")
+        val name = arguments?.getString("name")
+        val downloadUrl = arguments?.getString("downloadUrl")
+        val userId = arguments?.getString("userId")
+        // Diğer verileri de bundle'dan alabilirsiniz
+
+        println(userEmail)
+        println(username)
+        println(name)
+
+        // UI bileşenlerine verileri atama
+        binding.textView3.text= username
+         Picasso.get().load(downloadUrl).into(binding.profileImage)
+        // Diğer bileşenlere de verileri atayabilirsiniz
+
+
         return view
     }
 
@@ -60,10 +74,18 @@ class ChatFragment : Fragment() {
             val chatText = binding.chatText.text.toString()
             val userEmail = auth.currentUser!!.email!!
 
+            //chatlerin kimle kim arasında olduğunu
+            val userId = arguments?.getString("userId")
+            val userTo = userId+"${auth.currentUser?.uid}" // bundledan gelen mesaj gönderilecek kişi ve oturum açmış kişinin userId birleşimi
+            println(userId)
+            println(userTo)
+            //chatlerin kimle kim arasında olduğunu
+
             val dataMap = HashMap<String, Any>()
             dataMap.put("text",chatText)
             dataMap.put("userEmail",userEmail)
             dataMap.put("date",FieldValue.serverTimestamp())
+            dataMap.put("userTo",userTo)
 
             firestore.collection("Chats").add(dataMap).addOnSuccessListener {
                 binding.chatText.setText("")
@@ -73,25 +95,42 @@ class ChatFragment : Fragment() {
             }
         }
 
-        firestore.collection("Chats").orderBy("date",
-            Query.Direction.ASCENDING).addSnapshotListener { value, error ->
-            if (value != null) {
-                if(value!!.isEmpty) {
-                    Toast.makeText(requireContext(),"No Chat",Toast.LENGTH_LONG).show()
-                } else {
+        //kimden kime belirlemek için
+        val userId = arguments?.getString("userId")
+
+        //üstte sorgulanan ekrana yazar
+
+        firestore.collection("Chats")
+            .orderBy("date", Query.Direction.ASCENDING)
+            .whereIn("userTo", listOf(
+                "${auth.currentUser?.uid.toString()}$userId",
+                "$userId${auth.currentUser?.uid.toString()}"
+            ))
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    Toast.makeText(requireContext(), error.localizedMessage, Toast.LENGTH_LONG).show()
+                    return@addSnapshotListener
+                }
+
+                chats.clear()
+
+                if (value != null && !value.isEmpty) {
                     val documents = value.documents
-                    chats.clear()
-                    for (document in documents ) {
-                        val text = document.get("text") as String
-                        val user = document.get("userEmail") as String
-                        val chat = Chat(user,text)
-                        chats.add(chat)
-                        adapter.chats = chats
+
+                    for (document in documents) {
+                        val text = document.getString("text")
+                        val userEmail = document.getString("userEmail")
+
+                        if (text != null && userEmail != null) {
+                            val chat = Chat(text, userEmail)
+                            chats.add(chat)
+                        }
                     }
                 }
+
+                adapter.chats = chats
+                adapter.notifyDataSetChanged()
             }
-            adapter.notifyDataSetChanged()
-        }
 
     }
 

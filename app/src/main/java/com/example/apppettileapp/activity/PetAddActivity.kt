@@ -98,6 +98,7 @@ class PetAddActivity : AppCompatActivity() {
 
                     val postMap = hashMapOf<String,Any>()
                     postMap.put("userEmail","${auth.currentUser?.email.toString()}")
+                    postMap.put("userId","${auth.currentUser?.uid}")
                     postMap.put("downloadUrl",downloadUrl)
                     postMap.put("name",binding.petNameText.text.toString())
                     postMap.put("genus",binding.petGenusText.text.toString())

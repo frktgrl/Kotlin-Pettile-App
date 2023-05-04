@@ -113,13 +113,16 @@ class ProfileCreateActivity : AppCompatActivity() {
                     val downloadUrl = uri.toString()
                     println(downloadUrl)
 
-                    val postMap = hashMapOf<String,Any>()
-                    postMap.put("downloadUrl",downloadUrl)
-                    postMap.put("name",binding.nameInput.text.toString())
-                    postMap.put("userEmail","${auth.currentUser?.email.toString()}")
-                    postMap.put("username",binding.usernameInput.text.toString())
+                    val postMap = hashMapOf<String, Any>()
+                    postMap.put("downloadUrl", downloadUrl)
+                    postMap.put("name", binding.nameInput.text.toString())
+                    postMap.put("userEmail", "${auth.currentUser?.email.toString()}")
+                    postMap.put("userId", "${auth.currentUser?.uid}")
+                    postMap.put("username", binding.usernameInput.text.toString())
                     postMap.put("biography", binding.bioInput.text.toString())
-                    postMap.put("date",Timestamp.now())
+                    postMap.put("date", Timestamp.now())
+                    postMap.put("followers", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
+                    postMap.put("following", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
 
 
                     db.collection( "Users").add(postMap).addOnCompleteListener{task ->
