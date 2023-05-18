@@ -2,10 +2,13 @@ package com.example.apppettileapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.apppettileapp.databinding.RecyclerRowChatViewBinding
 import com.example.apppettileapp.databinding.RecyclerRowHomeBinding
 import com.example.apppettileapp.databinding.RecyclerRowUserProfileBinding
+import com.example.apppettileapp.fragment.ChatViewFragmentDirections
+import com.example.apppettileapp.fragment.ProfileViewFragmentDirections
 import com.example.apppettileapp.model.ChatView
 import com.example.apppettileapp.model.Post
 import com.squareup.picasso.Picasso
@@ -27,9 +30,26 @@ class ChatViewRecyclerAdapter (private val chatList : ArrayList<ChatView>) : Rec
     }
 
     override fun onBindViewHolder(holder: PostHolder, position: Int) {
-        holder.binding.textView4.text = chatList.get(position).userEmail
-//        holder.binding.recyclerCommentText.text = postList.get(position).comment
-//        Picasso.get().load(postList[position].downloadUrl).into(holder.binding.recyclerImageView)
+
+        holder.binding.usernameText.text = chatList.get(position).username
+        Picasso.get().load(chatList[position].downloadUrl).into(holder.binding.userPhotoView)
+
+        //CardViewa tıkla sohbet ekranına gitsin
+        val action = ChatViewFragmentDirections.actionChatViewFragmentToChatFragment(
+            userEmail = chatList[position].userEmail,
+            name = chatList[position].name,
+            username = chatList.get(position).username,
+            downloadUrl = chatList[position].downloadUrl,
+            userId = chatList[position].userId
+
+        )
+        //CardViewa tıkla sohbet ekranına gitsin
+        holder.binding.cardView.setOnClickListener {
+            val navController = Navigation.findNavController(holder.binding.cardView)
+            navController.navigate(action)
+
+        }
+
     }
 
 }

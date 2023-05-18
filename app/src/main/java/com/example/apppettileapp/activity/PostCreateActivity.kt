@@ -1,4 +1,4 @@
-package com.example.apppettileapp.fragment
+package com.example.apppettileapp.activity
 
 import android.Manifest
 import android.content.Intent
@@ -7,20 +7,16 @@ import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.apppettileapp.activity.FeedActivity
-import com.example.apppettileapp.databinding.FragmentPostBinding
+import com.example.apppettileapp.databinding.ActivityPostCreateBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -32,54 +28,40 @@ import com.google.firebase.storage.ktx.storage
 import java.io.IOException
 import java.util.*
 
-//ART BOOK İZİNLER
-class PostFragment : Fragment() {
+class PostCreateActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityPostCreateBinding
 
-
-    var selectedBitmap : Bitmap? = null
-    private lateinit var binding: FragmentPostBinding
     private lateinit var activityResultLauncher : ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     var selectedPicture : Uri? = null
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore : FirebaseFirestore
     private lateinit var storage : FirebaseStorage
-
+    var selectedBitmap : Bitmap? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
-
-        binding = FragmentPostBinding.inflate(layoutInflater)
+        binding= ActivityPostCreateBinding.inflate(layoutInflater)
         val view = binding.root
+        setContentView(view)
 
         auth = Firebase.auth
         firestore = Firebase.firestore
         storage = Firebase.storage
 
-        binding.backImage.setOnClickListener {
-
-            val intent = Intent(activity, FeedActivity::class.java)
-            startActivity(intent)
-        }
+        registerLauncher()
 
 
-
+        //paylaş butonu
         binding.shareButton.setOnClickListener {
 
             val uuid = UUID.randomUUID() //rastgele id
             val imageName = "$uuid.jpg"
 
             val reference = storage.reference
-            val imageReference = reference.child("images").child(imageName)
+            val imageReference = reference.child("imagesPost").child(imageName)
 
             if(selectedPicture != null) {
 
@@ -87,30 +69,33 @@ class PostFragment : Fragment() {
 
                     //download url -> firestore
 
-                    val uploadPictureReference = storage.reference.child("images").child(imageName)
+                    val uploadPictureReference = storage.reference.child("imagesPost").child(imageName)
                     uploadPictureReference.downloadUrl.addOnSuccessListener {
                         val downloadUrl = it.toString()
 
                         if (auth.currentUser != null) {
+                            val favoriteList = ArrayList<Map<String, Any>>()
+                            val favoriteItem = HashMap<String, Any>()
+                            favoriteItem["userId"] = auth.currentUser!!.uid
+                            favoriteList.add(favoriteItem)
 
                             val postMap = hashMapOf<String, Any>()
-                            postMap.put("downloadUrl",downloadUrl)
-                            postMap.put("userEmail",auth.currentUser!!.email!!)
-                            postMap.put("comment",binding.commentText.text.toString())
-                            postMap.put("date",com.google.firebase.Timestamp.now())
-                            postMap.put("userId",auth.currentUser?.uid!!)
-                            postMap.put("like", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
-                            postMap.put("recomment", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
+                            postMap["downloadUrl"] = downloadUrl
+                            postMap["comment"] = binding.titleInput.text.toString()
+                            postMap["date"] = com.google.firebase.Timestamp.now()
+                            postMap["userId"] = auth.currentUser!!.uid
+                            postMap["like"] = ArrayList<Map<String, Any>>() // Boş ArrayList ekleniyor
+                            postMap["recomment"] = ArrayList<Map<String, Any>>() // Boş ArrayList ekleniyor
+
 
                             firestore.collection("Posts").add(postMap).addOnSuccessListener {
-
-                                Toast.makeText(requireActivity(),"Upload Successful !", Toast.LENGTH_LONG).show()
-                                val intent = Intent(activity, FeedActivity::class.java)
+                                Toast.makeText(this, "Upload Successful!", Toast.LENGTH_LONG).show()
+                                val intent = Intent(this, FeedActivity::class.java)
                                 startActivity(intent)
 
 
                             }.addOnFailureListener {
-                                Toast.makeText(activity,it.localizedMessage, Toast.LENGTH_LONG).show()
+                                Toast.makeText(this,it.localizedMessage, Toast.LENGTH_LONG).show()
 
                             }
 
@@ -118,7 +103,7 @@ class PostFragment : Fragment() {
                     }
                 }.addOnFailureListener {
 
-                    Toast.makeText(requireActivity(),it.localizedMessage, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,it.localizedMessage, Toast.LENGTH_LONG).show()
                 }
 
             }
@@ -127,12 +112,13 @@ class PostFragment : Fragment() {
 
 
 
+
         // API 33-
-        binding.postImage.setOnClickListener {
+        binding.petImage.setOnClickListener {
 
-            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 
-                if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)){
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
 
                     Snackbar.make(view,"Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission") {
                         //request permission
@@ -154,10 +140,10 @@ class PostFragment : Fragment() {
         }
 
         // API 33+
-        binding.postImage.setOnClickListener {     if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED ||         ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED)
+        binding.petImage.setOnClickListener {     if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED ||         ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED)
 
-        { ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_AUDIO, Manifest.permission.READ_MEDIA_VIDEO), 1)
+        { ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_AUDIO, Manifest.permission.READ_MEDIA_VIDEO), 1)
             Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission", View.OnClickListener {
                 permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
                 permissionLauncher.launch(Manifest.permission.READ_MEDIA_AUDIO)
@@ -168,12 +154,8 @@ class PostFragment : Fragment() {
         }
 
 
-
-
-        registerLauncher()
-        return view
-
     }
+
 
     fun registerLauncher() {
         activityResultLauncher = registerForActivityResult(
@@ -186,17 +168,17 @@ class PostFragment : Fragment() {
                     try {
                         if (Build.VERSION.SDK_INT >= 28) {
                             val source = ImageDecoder.createSource(
-                                requireActivity().contentResolver,
+                                this.contentResolver,
                                 selectedPicture!!
                             )
                             selectedBitmap = ImageDecoder.decodeBitmap(source)
-                            binding.postImage.setImageBitmap(selectedBitmap)
+                            binding.petImage.setImageBitmap(selectedBitmap)
                         } else {
                             selectedBitmap = MediaStore.Images.Media.getBitmap(
-                                requireActivity().contentResolver,
+                                this.contentResolver,
                                 selectedPicture
                             )
-                            binding.postImage.setImageBitmap(selectedBitmap)
+                            binding.petImage.setImageBitmap(selectedBitmap)
                         }
                     } catch (e: IOException) {
                         e.printStackTrace()
@@ -213,7 +195,7 @@ class PostFragment : Fragment() {
                 activityResultLauncher.launch(intentToGallery)
             } else {
                 //permission denied
-                Toast.makeText(activity, "Permisson needed!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Permisson needed!", Toast.LENGTH_LONG).show()
             }
         }
     }

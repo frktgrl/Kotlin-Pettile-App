@@ -55,10 +55,8 @@ class ChatFragment : Fragment() {
         println(name)
 
         // UI bileşenlerine verileri atama
-        binding.textView3.text= username
-         Picasso.get().load(downloadUrl).into(binding.profileImage)
-        // Diğer bileşenlere de verileri atayabilirsiniz
-
+        binding.usernameText.text= username
+        Picasso.get().load(downloadUrl).into(binding.profileImage)
 
         return view
     }
@@ -75,10 +73,11 @@ class ChatFragment : Fragment() {
             val userEmail = auth.currentUser!!.email!!
 
             //chatlerin kimle kim arasında olduğunu
+            val username = arguments?.getString("username")
+            val name = arguments?.getString("name")
+            val downloadUrl = arguments?.getString("downloadUrl")
             val userId = arguments?.getString("userId")
             val userTo = userId+"${auth.currentUser?.uid}" // bundledan gelen mesaj gönderilecek kişi ve oturum açmış kişinin userId birleşimi
-            println(userId)
-            println(userTo)
             //chatlerin kimle kim arasında olduğunu
 
             val dataMap = HashMap<String, Any>()
@@ -86,6 +85,10 @@ class ChatFragment : Fragment() {
             dataMap.put("userEmail",userEmail)
             dataMap.put("date",FieldValue.serverTimestamp())
             dataMap.put("userTo",userTo)
+            dataMap.put("username", username!!)
+            dataMap.put("name",name!!)
+            dataMap.put("downloadUrl",downloadUrl!!)
+
 
             firestore.collection("Chats").add(dataMap).addOnSuccessListener {
                 binding.chatText.setText("")
@@ -120,9 +123,12 @@ class ChatFragment : Fragment() {
                     for (document in documents) {
                         val text = document.getString("text")
                         val userEmail = document.getString("userEmail")
+                        val username = document.getString("username")
+                        val name = document.getString("name")
+                        val downloadUrl = document.getString("downloadUrl")
 
                         if (text != null && userEmail != null) {
-                            val chat = Chat(text, userEmail)
+                            val chat = Chat(text, userEmail,name,username,downloadUrl)
                             chats.add(chat)
                         }
                     }

@@ -13,6 +13,7 @@ import com.example.apppettileapp.model.ChatView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.squareup.picasso.Picasso
 
 
 class ChatViewFragment : Fragment() {
@@ -47,12 +48,13 @@ class ChatViewFragment : Fragment() {
     }
 
 
-
     fun getDataFromFireStoreChats() {
 
+        val currentUserUid = auth.currentUser?.uid // Oturum açmış kullanıcının userId'sini alın
+
         db.collection("Chats").whereEqualTo("userEmail", "${auth.currentUser?.email.toString()}")
-            .orderBy("date", Query.Direction.DESCENDING).
-            addSnapshotListener { snapshot, exception ->
+            .orderBy("date", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
                     Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
                 } else {
@@ -63,31 +65,80 @@ class ChatViewFragment : Fragment() {
                             chatArrayList.clear()
 
                             val documents = snapshot.documents
+                            val uniqueDownloadUrls = HashSet<String>() // Gönderilen downloadUrl'leri tutmak için bir küme oluştur
+                            val uniqueUsernames = HashSet<String>() // Gönderilen username'leri tutmak için bir küme oluştur
+                            val uniqueNames = HashSet<String>() // Gönderilen username'leri tutmak için bir küme oluştur
+                            val uniqueUserId = HashSet<String>()
+                            val uniqueUserEmail = HashSet<String>()
                             for (document in documents) {
-                                val text = document.get("text") as String
                                 val userEmail = document.get("userEmail") as String
                                 val userTo = document.get("userTo") as String
-                                //val downloadUrl = document.get("downloadUrl") as String
-                                //val timestamp = document.get("date") as Timestamp
-                                //val date = timestamp.toDate()
 
-                                println(text)
-                                println(userEmail)
-                                println(userTo)
+                                if (userEmail != null && userTo != null) {
 
+                                    val otherUserId = userTo.replace(
+                                        currentUserUid.toString(),
+                                        ""
+                                    ) // Oturum açmış kullanıcının userId'sini çıkar
 
-                                val chatview = ChatView(text, userEmail)
-                                chatArrayList.add(chatview)
+                                    println(otherUserId)
+                                    println(userEmail)
+                                    println(userTo)
+
+                                    db.collection("Users")
+                                        .whereEqualTo("userId", otherUserId)
+                                        .addSnapshotListener { snapshot, exception ->
+                                            if (exception != null) {
+                                                Toast.makeText(
+                                                    requireContext(),
+                                                    exception.localizedMessage,
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            } else {
+
+                                                if (snapshot != null) {
+                                                    if (!snapshot.isEmpty) {
+
+                                                        val documents = snapshot.documents
+                                                        for (document in documents) {
+                                                            val name = document.get("name") as String
+                                                            val userEmail = document.get("userEmail") as String
+                                                            val userId = document.get("userId") as String
+                                                            val username = document.get("username") as String
+                                                            val downloadUrl = document.get("downloadUrl") as String
+
+                                                            println(name)
+                                                            println(username)
+
+                                                            // Eğer downloadUrl veya username daha önce eklenmediyse
+                                                            if (!uniqueDownloadUrls.contains(downloadUrl) && !uniqueUsernames.contains(username) && !uniqueNames.contains(name) && !uniqueUserId.contains(userId)&& !uniqueUserEmail.contains(userEmail)) {
+
+                                                                uniqueDownloadUrls.add(downloadUrl) // Kümeye ekle
+                                                                uniqueUsernames.add(username) // Kümeye ekle
+                                                                uniqueUsernames.add(name)
+                                                                uniqueUsernames.add(userId)
+                                                                uniqueUsernames.add(userEmail)
+                                                                val chatview = ChatView(downloadUrl,username,name,userId,userEmail)
+                                                                chatArrayList.add(chatview)
+                                                            }
+                                                            adapter!!.notifyDataSetChanged()
+
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                        }
+
+                                }
                             }
-                            adapter!!.notifyDataSetChanged()
 
                         }
                     }
 
+
                 }
+
             }
-
-
     }
-
 }

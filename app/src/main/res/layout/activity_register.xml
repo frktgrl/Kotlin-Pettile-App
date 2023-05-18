@@ -11,8 +11,9 @@
         android:id="@+id/pettileLogo"
         android:layout_width="300dp"
         android:layout_height="70dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="160dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/pettile_beyaz" />
@@ -21,11 +22,12 @@
         android:id="@+id/emailSignUp"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pettileLogo" />
 
@@ -33,22 +35,28 @@
         android:id="@+id/passwordSignUp"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/emailSignUp"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="@+id/emailSignUp"
         app:layout_constraintTop_toBottomOf="@+id/emailSignUp" />
 
     <Button
         android:id="@+id/signUpButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
         android:layout_marginTop="15dp"
+        android:background="@drawable/button_shape"
         android:onClick="signUpButtonClicked"
         android:text="Sign Up"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/passwordSignUp"
+        app:layout_constraintStart_toStartOf="@+id/passwordSignUp"
         app:layout_constraintTop_toBottomOf="@+id/passwordSignUp" />
 
     <Button
@@ -58,11 +66,11 @@
         android:layout_marginBottom="20dp"
         android:background="#00FFFFFF"
         android:onClick="signInTextButtonClicked"
-        android:text="Do you have an Account ? Sign In "
+        android:text="Do you have an account ? Login"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/signUpButton"
+        app:layout_constraintStart_toStartOf="@+id/signUpButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

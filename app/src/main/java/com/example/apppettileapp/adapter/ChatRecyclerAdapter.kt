@@ -23,6 +23,7 @@ class ChatRecyclerAdapter : RecyclerView.Adapter<ChatRecyclerAdapter.ChatHolder>
 
     class ChatHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val message: TextView = itemView.findViewById(R.id.message)
+        val profileImage: ImageView = itemView.findViewById(R.id.profileImage)
 
 
     }
@@ -73,8 +74,9 @@ class ChatRecyclerAdapter : RecyclerView.Adapter<ChatRecyclerAdapter.ChatHolder>
 
     override fun onBindViewHolder(holder: ChatHolder, position: Int) {
         val chat = chats[position]
-        println(chat)
-        holder.message.text = "${chat.userEmail} : ${chat.text}"
+        holder.message.text = "${chat.text}"
+        Picasso.get().load(chats[position].downloadUrl).into(holder.profileImage)
+
 
 
     }

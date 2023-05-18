@@ -1,6 +1,5 @@
 package com.example.apppettileapp.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,56 +7,50 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.apppettileapp.activity.PostCreateActivity
-import com.example.apppettileapp.adapter.FeedRecyclerAdapter
-import com.example.apppettileapp.databinding.FragmentHomeBinding
-import com.example.apppettileapp.model.Post
+import com.example.apppettileapp.adapter.AdoptionRecyclerAdapter
+import com.example.apppettileapp.databinding.FragmentAdoptionPostBinding
+import com.example.apppettileapp.model.AdoptionPost
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 
 
-class HomeFragment : Fragment() {
+class AdoptionPostFragment : Fragment() {
 
-
+    private lateinit var binding: FragmentAdoptionPostBinding
     private lateinit var auth : FirebaseAuth
     private lateinit var db : FirebaseFirestore
-    private lateinit var binding: FragmentHomeBinding
 
-    val postArrayList : ArrayList<Post> = ArrayList()
-    var adapter : FeedRecyclerAdapter? = null
+    val postArrayList : ArrayList<AdoptionPost> = ArrayList()
+    var adapter : AdoptionRecyclerAdapter? = null
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-
-        binding = FragmentHomeBinding.inflate(layoutInflater)
+        binding= FragmentAdoptionPostBinding.inflate(layoutInflater)
         val view = binding.root
 
 
-        binding.feedRecyclerView.layoutManager = LinearLayoutManager(activity)
+        //yanyana cardview için gridlayoutmanager kullan
+        binding.adoptionRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        adapter = FeedRecyclerAdapter(postArrayList)
-        binding.feedRecyclerView.adapter = adapter
+        adapter = AdoptionRecyclerAdapter(postArrayList)
+        binding.adoptionRecyclerView.adapter = adapter
 
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
         getDataFromFirestore()
-        adoptionClicked (view)
+
+
         return view
-
-
     }
-
-
     fun getDataFromFirestore() {
 
-        db.collection("Posts").orderBy("date",
+        db.collection("AdoptionPosts").orderBy("date",
             Query.Direction.DESCENDING).addSnapshotListener { snapshot, exception ->
             if (exception != null) {
                 Toast.makeText(context,exception.localizedMessage, Toast.LENGTH_LONG).show()
@@ -70,13 +63,15 @@ class HomeFragment : Fragment() {
 
                         val documents = snapshot.documents
                         for (document in documents) {
-                            val comment = document.get("comment") as String
+                            val title = document.get("title") as String
+                            val name = document.get("name") as String
+                            val location = document.get("location") as String
                             val downloadUrl = document.get("downloadUrl") as String
                             val userId = document.get("userId") as String
                             val like = document.get("like") as List<String> // like alanını dizi olarak okuyun
-                            val recomment = document.get("recomment") as List<String> // recomment alanını dizi olarak okuyun
+                            val favorite = document.get("favorite") as List<String> // recomment alanını dizi olarak okuyun
 
-                            val post = Post(comment, downloadUrl, userId, like, recomment)
+                            val post = AdoptionPost(downloadUrl,title,name,location, userId, like, favorite)
                             postArrayList.add(post)
                         }
                         adapter!!.notifyDataSetChanged()
@@ -88,15 +83,5 @@ class HomeFragment : Fragment() {
         }
 
     }
-
-    fun adoptionClicked (view: View) {
-
-        binding.adoptionImage.setOnClickListener {
-            println("basıldı")
-            val intent = Intent(activity, PostCreateActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
 
 }

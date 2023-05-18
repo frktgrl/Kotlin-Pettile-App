@@ -1,15 +1,11 @@
 package com.example.apppettileapp.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.example.apppettileapp.R
-import com.example.apppettileapp.activity.AdoptionActivity
-import com.example.apppettileapp.databinding.FragmentChatBinding
 import com.example.apppettileapp.databinding.FragmentNotificationBinding
 
 

@@ -16,7 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppPettileApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activity.PostCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AdoptionCreateActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.AdoptionActivity"
             android:exported="false" />
@@ -31,10 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".activity.FeedActivity"
-            android:exported="false">
-
-        </activity>
-
+            android:exported="false" />
         <activity
             android:name=".activity.RegisterActivity"
             android:exported="false" />

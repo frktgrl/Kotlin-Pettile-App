@@ -44,10 +44,17 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/postFragment"
-        android:name="com.example.apppettileapp.fragment.PostFragment"
-        android:label="fragment_post"
-        tools:layout="@layout/fragment_post" />
+        android:id="@+id/adoptionFragment"
+        android:name="com.example.apppettileapp.fragment.AdoptionFragment"
+        android:label="fragment_adoption"
+        tools:layout="@layout/fragment_adoption" >
+        <action
+            android:id="@+id/action_adoptionFragment_to_profileViewFragment"
+            app:destination="@id/profileViewFragment" />
+        <action
+            android:id="@+id/action_adoptionFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.example.apppettileapp.fragment.ChatFragment"
@@ -108,5 +115,33 @@
         android:id="@+id/chatViewFragment"
         android:name="com.example.apppettileapp.fragment.ChatViewFragment"
         android:label="fragment_chat_view"
-        tools:layout="@layout/fragment_chat_view" />
+        tools:layout="@layout/fragment_chat_view" >
+        <action
+            android:id="@+id/action_chatViewFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adoptionPostFragment"
+        android:name="com.example.apppettileapp.fragment.AdoptionPostFragment"
+        android:label="fragment_adoption_post"
+        tools:layout="@layout/fragment_adoption_post">
+        <action
+            android:id="@+id/action_adoptionPostFragment_to_profileViewFragment"
+            app:destination="@id/profileViewFragment" />
+        <action
+            android:id="@+id/action_adoptionPostFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adoptionFavoritesFragment"
+        android:name="com.example.apppettileapp.fragment.AdoptionFavoritesFragment"
+        android:label="fragment_adoption_favorites"
+        tools:layout="@layout/fragment_adoption_favorites" >
+        <action
+            android:id="@+id/action_adoptionFavoritesFragment_to_profileViewFragment"
+            app:destination="@id/profileViewFragment" />
+        <action
+            android:id="@+id/action_adoptionFavoritesFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 </navigation>

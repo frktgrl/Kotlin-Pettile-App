@@ -41,6 +41,8 @@ class ProfileUpdateActivity : AppCompatActivity() {
 
         registerLauncher()
         auth = Firebase.auth
+
+
     }
 
 
