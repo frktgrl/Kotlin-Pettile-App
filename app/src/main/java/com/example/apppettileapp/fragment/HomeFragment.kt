@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.apppettileapp.activity.PostCreateActivity
 import com.example.apppettileapp.adapter.FeedRecyclerAdapter
@@ -48,7 +49,8 @@ class HomeFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
 
         getDataFromFirestore()
-        adoptionClicked (view)
+        postClicked (view)
+        chatClicked(view)
         return view
 
 
@@ -89,12 +91,20 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun adoptionClicked (view: View) {
+    fun postClicked (view: View) {
 
-        binding.adoptionImage.setOnClickListener {
+        binding.postImage.setOnClickListener {
             println("basıldı")
             val intent = Intent(activity, PostCreateActivity::class.java)
             startActivity(intent)
+        }
+    }
+    fun chatClicked (view: View) {
+
+        binding.chatImage.setOnClickListener {
+
+            val action = HomeFragmentDirections.actionHomeFragmentToChatViewFragment()
+            Navigation.findNavController(requireView()).navigate(action)
         }
     }
 

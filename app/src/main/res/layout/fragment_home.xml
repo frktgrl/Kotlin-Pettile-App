@@ -37,10 +37,18 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/adoptionImage"
+                    android:id="@+id/postImage"
+                    style="@style/icon"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_share_active"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/chatImage"
                     style="@style/icon"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_share_active"
+                    android:src="@drawable/ic_comments_border"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

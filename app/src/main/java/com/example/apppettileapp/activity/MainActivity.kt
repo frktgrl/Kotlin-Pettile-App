@@ -9,8 +9,10 @@ import com.example.apppettileapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.onesignal.OneSignal
 
 class MainActivity : AppCompatActivity() {
+
 
     private lateinit var auth : FirebaseAuth // Firebase kullanıcı işlemleri için
     private lateinit var binding: ActivityMainBinding
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
 
     }
 
@@ -76,6 +79,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+
 
 
 }

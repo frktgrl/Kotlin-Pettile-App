@@ -23,9 +23,6 @@
             android:name=".activity.AdoptionCreateActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.AdoptionActivity"
-            android:exported="false" />
-        <activity
             android:name=".activity.PetAddActivity"
             android:exported="false" />
         <activity

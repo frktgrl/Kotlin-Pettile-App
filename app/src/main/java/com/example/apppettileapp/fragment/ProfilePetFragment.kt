@@ -68,6 +68,9 @@ class ProfilePetFragment : Fragment() {
                                 val gender = document.get("gender") as String
                                 val age = document.get("age") as String
                                 val downloadUrl = document.get("downloadUrl") as String
+                                val petId = document.get("petId") as String
+                                val family = document.get("family") as List<String>
+                                val userId = document.get("userId")as String // family alanını dizi olarak okuyun
 
 
                                 println(name)
@@ -75,7 +78,7 @@ class ProfilePetFragment : Fragment() {
                                 println(gender)
                                 println(age)
 
-                                val pet = Pet(name,genus,gender ,age,downloadUrl)
+                                val pet = Pet(name,genus,gender ,age,downloadUrl,petId,family,userId)
                                 petArrayList.add(pet)
 
 

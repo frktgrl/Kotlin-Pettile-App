@@ -110,11 +110,9 @@ class FeedRecyclerAdapter(private val postList: ArrayList<Post>) :
                     val documentSnapshot = querySnapshot.documents[0]
                     val documentId = documentSnapshot.id
 
-                    val currentUserId =
-                        auth.currentUser?.uid // Oturum açmış kullanıcının ID'sini al
+                    val currentUserId = auth.currentUser?.uid // Oturum açmış kullanıcının ID'sini al
                     val collectionRef = db.collection("Users")
-                    val query =
-                        collectionRef.whereEqualTo("userId", "${auth.currentUser?.uid}").limit(1)
+                    val query = collectionRef.whereEqualTo("userId", "${auth.currentUser?.uid}").limit(1)
 
                     query.get().addOnSuccessListener { querySnapshot ->
                         if (!querySnapshot.isEmpty) {

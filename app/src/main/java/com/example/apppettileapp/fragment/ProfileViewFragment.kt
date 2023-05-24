@@ -22,9 +22,6 @@ import com.squareup.picasso.Picasso
 
 class ProfileViewFragment : Fragment() {
 
-
-
-
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var binding: FragmentProfileViewBinding
@@ -46,23 +43,6 @@ class ProfileViewFragment : Fragment() {
 
         // View pager ve Tablayout için
 
-        viewPager = binding.viewPager
-        tabLayout = binding.tabLayout
-
-        val viewadapter = ProfileViewPagerAdapter(this)
-        viewPager.adapter = viewadapter
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            val tabText = when (position) {
-                0 -> "Posts"
-                1 -> "Pets"
-                2 -> "Family"
-                else -> "Posts"
-            }
-            tab.text = tabText
-        }.attach()
-
-        // View pager ve Tablayout için
 
 
         auth = FirebaseAuth.getInstance()
@@ -76,6 +56,27 @@ class ProfileViewFragment : Fragment() {
         val userId = arguments?.getString("userId")
         val followers = arguments?.getString("followers")
         val following = arguments?.getString("following")
+
+        //Diğer Fragmentlarına veri dağıtma
+        viewPager = binding.viewPager
+        tabLayout = binding.tabLayout
+
+        val viewadapter = ProfileViewPagerAdapter(this)
+        viewadapter.addFragment(ProfilePostViewFragment.newInstanceForPostView(name,username,userId), "Posts")
+        viewadapter.addFragment(ProfilePetViewFragment.newInstanceForPetView(name, username, userId), "Pets")
+        viewPager.adapter = viewadapter
+
+        // View pager ve Tablayout için
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            val tabText = when (position) {
+                0 -> "Posts"
+                1 -> "Pets"
+                2 -> "Family"
+                else -> "Posts"
+            }
+            tab.text = tabText
+        }.attach()
+
 
         println(userEmail)
         println(username)
@@ -220,7 +221,30 @@ class ProfileViewFragment : Fragment() {
 
 
 
+    companion object {
+        fun newInstanceForPostView(name: String?, username: String?, userId: String?): ProfilePostViewFragment {
+            val fragment = ProfilePostViewFragment()
+            val args = Bundle()
+            args.putString("name", name)
+            args.putString("username", username)
+            args.putString("userId", userId)
+            fragment.arguments = args
+            return fragment
+        }
+
+        fun newInstanceForPetView(name: String?, username: String?, userId: String?): ProfilePetViewFragment {
+            val fragment = ProfilePetViewFragment()
+            val args = Bundle()
+            args.putString("name", name)
+            args.putString("username", username)
+            args.putString("userId", userId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
 
 
 
 }
+

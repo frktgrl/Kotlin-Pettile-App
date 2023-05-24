@@ -42,54 +42,52 @@ class ProfilePostViewFragment() : Fragment() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
+        getDataFromFireStore()
 
-//        getDataFromFireStore()
 
         return view
     }
 
 
 
-//    fun getDataFromFireStore() {
-//
-//
-//        db.collection("Posts").whereEqualTo("userId", "${userId}")
-//            .orderBy("date", Query.Direction.DESCENDING).
-//            addSnapshotListener { snapshot, exception ->
-//                if (exception != null) {
-//                    Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
-//                } else {
-//
-//                    if (snapshot != null) {
-//                        if (!snapshot.isEmpty) {
-//
-//                            postArrayList.clear()
-//
-//                            val documents = snapshot.documents
-//                            for (document in documents) {
-//                                val comment = document.get("comment") as String
-//                                val useremail = document.get("userEmail") as String
-//                                val downloadUrl = document.get("downloadUrl") as String
-//                                val userId = document.get("userId") as String
-//                                //val timestamp = document.get("date") as Timestamp
-//                                //val date = timestamp.toDate()
-//
-//                                println(comment)
-//                                println(useremail)
-//                                println(downloadUrl)
-//
-//                                val post = Post(useremail, comment, downloadUrl,userId)
-//                                postArrayList.add(post)
-//                            }
-//                            adapter!!.notifyDataSetChanged()
-//
-//                        }
-//                    }
-//
-//                }
-//            }
-//
-//
-//    }
+    private fun getDataFromFireStore() {
+        db.collection("Posts")
+            .whereEqualTo("userId", arguments?.getString("userId"))
+            .orderBy("date", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
+                } else {
+                    if (snapshot != null && !snapshot.isEmpty) {
+                        postArrayList.clear()
+                        val documents = snapshot.documents
+                        for (document in documents) {
+                            val comment = document.get("comment") as String
+                            val downloadUrl = document.get("downloadUrl") as String
+                            val userId = document.get("userId") as String
+                            val like = document.get("like") as List<String> // like alanını dizi olarak okuyun
+                            val recomment = document.get("recomment") as List<String> // recomment alanını dizi olarak okuyun
+
+                            val post = Post(comment, downloadUrl, userId, like, recomment)
+                            postArrayList.add(post)
+                        }
+                        adapter?.notifyDataSetChanged()
+                    }
+                }
+            }
+    }
+
+    //gelen verileri almak için
+    companion object {
+        fun newInstanceForPostView(name: String?, username: String?, userId: String?): ProfilePostViewFragment {
+            val fragment = ProfilePostViewFragment()
+            val args = Bundle()
+            args.putString("name", name)
+            args.putString("username", username)
+            args.putString("userId", userId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
 }

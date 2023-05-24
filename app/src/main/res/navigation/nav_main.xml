@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_chatViewFragment"
+            app:destination="@id/chatViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -110,6 +113,9 @@
         <action
             android:id="@+id/action_profileViewFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_profileViewFragment_to_petFamilyRequestFragment"
+            app:destination="@id/petFamilyRequestFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatViewFragment"
@@ -144,4 +150,54 @@
             android:id="@+id/action_adoptionFavoritesFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/profilePetFragment"
+        android:name="com.example.apppettileapp.fragment.ProfilePetFragment"
+        android:label="fragment_profile_pet"
+        tools:layout="@layout/fragment_profile_pet" >
+        <action
+            android:id="@+id/action_profilePetFragment_to_familyCreateFragment"
+            app:destination="@id/familyCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/familyCreateFragment"
+        android:name="com.example.apppettileapp.fragment.FamilyCreateFragment"
+        android:label="fragment_family_create"
+        tools:layout="@layout/fragment_family_create">
+
+        <argument
+            android:name="petId"
+            app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="downloadUrl"
+            app:argType="string" />
+
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/petFamilyRequestFragment"
+        android:name="com.example.apppettileapp.fragment.PetFamilyRequestFragment"
+        android:label="fragment_pet_family_request"
+        tools:layout="@layout/fragment_pet_family_request">
+
+        <argument
+        android:name="downloadUrl"
+        app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="petId"
+            app:argType="string" />
+
+    </fragment>
+
+
 </navigation>

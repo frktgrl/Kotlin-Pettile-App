@@ -84,6 +84,8 @@ class PetAddActivity : AppCompatActivity() {
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpg"
 
+        val petId = UUID.randomUUID().toString()
+
         val storage = Firebase.storage
         val reference = storage.reference
         val imagesReference = reference.child("imagesPet").child(imageName)
@@ -95,16 +97,23 @@ class PetAddActivity : AppCompatActivity() {
                 uploadedPictureReference.downloadUrl.addOnSuccessListener { uri ->
                     val downloadUrl = uri.toString()
                     println(downloadUrl)
+                    val familyList = ArrayList<HashMap<String, Any>>() // familyList'in türünü HashMap<String, Any> olarak belirtin
+                    val favoriteItem = HashMap<String, Any>()
+                    favoriteItem["petId"] = petId
+                    familyList.add(favoriteItem)
 
-                    val postMap = hashMapOf<String,Any>()
-                    postMap.put("userEmail","${auth.currentUser?.email.toString()}")
-                    postMap.put("userId","${auth.currentUser?.uid}")
-                    postMap.put("downloadUrl",downloadUrl)
-                    postMap.put("name",binding.petNameText.text.toString())
-                    postMap.put("genus",binding.petGenusText.text.toString())
-                    postMap.put("gender", binding.petGenderText.text.toString())
-                    postMap.put("age", binding.petAgeText.text.toString())
-                    postMap.put("date", Timestamp.now())
+                    val postMap = hashMapOf<String, Any>()
+                    postMap["userEmail"] = auth.currentUser?.email.toString()
+                    postMap["userId"] = "${auth.currentUser?.uid}"
+                    postMap["downloadUrl"] = downloadUrl
+                    postMap["name"] = binding.petNameText.text.toString()
+                    postMap["genus"] = binding.petGenusText.text.toString()
+                    postMap["gender"] = binding.petGenderText.text.toString()
+                    postMap["age"] = binding.petAgeText.text.toString()
+                    postMap["date"] = Timestamp.now()
+                    postMap["petId"] = petId
+                    postMap["family"] = familyList
+
 
 
                     db.collection( "Pets").add(postMap).addOnCompleteListener{task ->
