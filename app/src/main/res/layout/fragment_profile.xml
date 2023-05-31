@@ -39,17 +39,26 @@
                     style="@style/icon"
                     android:src="@drawable/pet_add"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/editProfileButton"
+                    app:layout_constraintEnd_toStartOf="@+id/myActivityButton"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/editProfileButton"
                     style="@style/icon"
                     android:onClick="editProfileClicked"
-                    android:src="@drawable/ic_more"
+                    android:src="@drawable/ic_profile"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/myActivityButton"
+                    style="@style/icon"
+                    android:onClick="myActivityButtonClicked"
+                    android:src="@drawable/baseline_co_present_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/editProfileButton"
+                    app:layout_constraintTop_toTopOf="@+id/editProfileButton" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -15,9 +15,9 @@
         android:icon="@drawable/pet_add"
         android:title="Adoption" />
     <item
-        android:id="@+id/notificationFragment"
-        android:icon="@drawable/baseline_notifications_none_24"
-        android:title="Notifications" />
+        android:id="@+id/chatViewFragment"
+        android:icon="@drawable/message"
+        android:title="Messages" />
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/baseline_person_24"

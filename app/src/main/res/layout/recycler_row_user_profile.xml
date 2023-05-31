@@ -26,7 +26,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/recyclerEmailText"
                 app:srcCompat="@drawable/baseline_person_24"
-                 />
+                app:civ_border_color="@color/black"
+                />
 
             <TextView
                 android:id="@+id/recyclerEmailText"
@@ -43,16 +44,42 @@
                 app:layout_constraintStart_toEndOf="@+id/profileImage"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/recyclerImageView"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_gravity="center"
-                android:paddingTop="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profileImage"
-                tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+                app:layout_constraintStart_toStartOf="@+id/profileImage"
+                app:layout_constraintTop_toBottomOf="@+id/profileImage">
+
+                <ImageView
+                    android:id="@+id/recyclerImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center"
+                    android:paddingTop="5dp"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
@@ -76,25 +103,21 @@
                     app:elevation="0dp"
                     app:srcCompat="@drawable/ic_likes" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/commentButton"
+                <Space
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:clickable="true"
-                    app:backgroundTint="@android:color/transparent"
-                    app:elevation="0dp"
-                    app:srcCompat="@drawable/baseline_notifications_none_24" />
+                    android:layout_weight="1" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/saveButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="101dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     android:clickable="true"
                     app:backgroundTint="@android:color/transparent"
                     app:elevation="0dp"
-                    app:srcCompat="@drawable/ic_share" />
+                    app:srcCompat="@drawable/save_flag" />
 
             </LinearLayout>
 

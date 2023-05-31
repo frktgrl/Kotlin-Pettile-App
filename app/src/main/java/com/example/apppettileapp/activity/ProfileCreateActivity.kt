@@ -50,31 +50,7 @@ class ProfileCreateActivity : AppCompatActivity() {
         db = Firebase.firestore
 
 
-        // API 33-
-//        binding.profileImage.setOnClickListener {
-//
-//            if (ContextCompat.checkSelfPermission(this  , Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//
-//                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
-//
-//                    Snackbar.make(view,"Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission") {
-//                        //request permission
-//                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-//                    }.show()
-//                }else {
-//                    //request permission
-//                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-//                }
-//
-//            }else{
-//
-//                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//                //start activity for result
-//                activityResultLauncher.launch(intentToGallery)
-//            }
-//
-//
-//        }
+
 
         // API 33+
         binding.profileImage.setOnClickListener {     if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED ||
@@ -123,8 +99,7 @@ class ProfileCreateActivity : AppCompatActivity() {
                     postMap.put("date", Timestamp.now())
                     postMap.put("followers", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
                     postMap.put("following", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
-                    postMap.put("likeposts", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
-                    postMap.put("favoriteposts", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
+
 
 
                     db.collection( "Users").add(postMap).addOnCompleteListener{task ->

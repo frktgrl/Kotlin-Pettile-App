@@ -56,7 +56,7 @@
                             android:clickable="true"
                             app:backgroundTint="@android:color/transparent"
                             app:elevation="0dp"
-                            app:srcCompat="@drawable/flag" />
+                            app:srcCompat="@drawable/save_flag" />
 
                     </LinearLayout>
                 </LinearLayout>

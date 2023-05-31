@@ -13,7 +13,6 @@ import com.example.apppettileapp.model.ChatView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.squareup.picasso.Picasso
 
 
 class ChatViewFragment : Fragment() {

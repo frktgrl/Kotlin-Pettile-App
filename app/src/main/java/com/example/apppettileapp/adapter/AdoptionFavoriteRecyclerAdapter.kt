@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.apppettileapp.R
 import com.example.apppettileapp.databinding.RecyclerRowAdoptionFavoriteBinding
 import com.example.apppettileapp.fragment.AdoptionFavoritesFragmentDirections
 import com.example.apppettileapp.fragment.AdoptionFragmentDirections
 import com.example.apppettileapp.model.AdoptionFavorite
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
@@ -86,6 +88,42 @@ class AdoptionFavoriteRecyclerAdapter (private var postArrayList : ArrayList<Ado
             .addOnFailureListener { exception ->
                 // hata durumu
             }
+
+        holder.binding.saveButton.setOnClickListener {
+
+            val adoptionPostId = postArrayList[position].adoptionPostId
+            val currentUserId = auth.currentUser!!.uid
+
+            // Firebase Firestore işlemleri
+            val db = FirebaseFirestore.getInstance()
+            val postsRef = db.collection("AdoptionPosts")
+
+            postsRef.whereEqualTo("adoptionPostId", adoptionPostId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot.documents) {
+                        val postRef = postsRef.document(document.id)
+                        val favorites = document.get("favorite") as ArrayList<String>?
+
+                        if (favorites != null && favorites.contains(currentUserId)) {
+                            postRef.update("favorite", FieldValue.arrayRemove(currentUserId))
+                                .addOnSuccessListener {
+                                    println("Favorite Removed")
+                                }
+                                .addOnFailureListener { e ->
+                                    // Hata durumunda yapılacak işlemler
+                                }
+                        }
+                    }
+                }
+                .addOnFailureListener { e ->
+                    // Hata durumunda yapılacak işlemler
+                }
+
+
+
+        }
     }
+
 
 }

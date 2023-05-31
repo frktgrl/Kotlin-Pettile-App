@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.example.apppettileapp.activity.PetAddActivity
 import com.example.apppettileapp.activity.ProfileUpdateActivity
+import com.example.apppettileapp.activity.SaveActivity
 import com.example.apppettileapp.adapter.MyPagerAdapter
 import com.example.apppettileapp.databinding.FragmentProfileBinding
 import com.google.android.material.tabs.TabLayout
@@ -66,6 +67,7 @@ class ProfileFragment : Fragment() {
         getDataFromFirestoreUser()
         editProfileButtonClicked(view)
         petAddButtonClicked(view)
+        myActivityButtonClicked(view)
 
         return view
     }
@@ -125,6 +127,13 @@ class ProfileFragment : Fragment() {
 
         binding.addPetImage.setOnClickListener {
             val intent = Intent(activity, PetAddActivity::class.java)
+            startActivity(intent)
+        }
+    }
+    fun myActivityButtonClicked (view: View) {
+
+        binding.myActivityButton.setOnClickListener {
+            val intent = Intent(activity, SaveActivity::class.java)
             startActivity(intent)
         }
     }

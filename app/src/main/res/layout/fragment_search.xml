@@ -28,7 +28,7 @@
                 <ImageView
                     android:id="@+id/searchImage"
                     style="@style/icon"
-                    android:src="@drawable/ic_search_active"
+                    android:src="@drawable/ic_search"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

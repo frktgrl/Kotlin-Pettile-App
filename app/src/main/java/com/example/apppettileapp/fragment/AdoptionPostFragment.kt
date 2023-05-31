@@ -68,10 +68,9 @@ class AdoptionPostFragment : Fragment() {
                             val location = document.get("location") as String
                             val downloadUrl = document.get("downloadUrl") as String
                             val userId = document.get("userId") as String
-                            val like = document.get("like") as List<String> // like alanını dizi olarak okuyun
                             val favorite = document.get("favorite") as List<String> // recomment alanını dizi olarak okuyun
-
-                            val post = AdoptionPost(downloadUrl,title,name,location, userId, like, favorite)
+                            val adoptionPostId = document.get("adoptionPostId") as String
+                            val post = AdoptionPost(downloadUrl,title,name,location, userId,favorite,adoptionPostId)
                             postArrayList.add(post)
                         }
                         adapter!!.notifyDataSetChanged()

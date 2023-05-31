@@ -39,8 +39,8 @@ class FeedRecyclerAdapter(private val postList: ArrayList<Post>) :
     }
 
     override fun onBindViewHolder(holder: PostHolder, position: Int) {
-        holder.binding.recyclerCommentText.text = postList[position].comment
 
+        holder.binding.recyclerCommentText.text = postList[position].comment
         Picasso.get().load(postList[position].downloadUrl).into(holder.binding.recyclerImageView)
 
         auth = FirebaseAuth.getInstance()
@@ -60,6 +60,23 @@ class FeedRecyclerAdapter(private val postList: ArrayList<Post>) :
                         val following = document.get("following").toString()
                         holder.binding.recyclerEmailText.text = username
                         Picasso.get().load(downloadUrl).into(holder.binding.profileImage)
+
+                        for (likeScan in postList[position].like) {
+
+                            if (likeScan == userId){
+
+                                holder.binding.likeButton.setImageResource(R.drawable.ic_likes_active)
+                            }
+                        }
+                        for (saveScan in postList[position].save) {
+
+                            if (saveScan == userId){
+
+                                holder.binding.saveButton.setImageResource(R.drawable.save_flag_active)
+                            }
+                        }
+
+
 
                         val action =
                             HomeFragmentDirections.actionHomeFragmentToProfileViewFragment(
@@ -100,91 +117,96 @@ class FeedRecyclerAdapter(private val postList: ArrayList<Post>) :
         // likeButton onClickListener'ında
         holder.binding.likeButton.setOnClickListener {
 
+            val postId = postList[position].postId
+            val currentUserId = auth.currentUser!!.uid
 
-            val collectionRef = db.collection("Posts")
-            val query =
-                collectionRef.whereEqualTo("downloadUrl", postList[position].downloadUrl).limit(1)
+            // Firebase Firestore işlemleri
+            val db = FirebaseFirestore.getInstance()
+            val postsRef = db.collection("Posts")
 
-            query.get().addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
-                    val documentSnapshot = querySnapshot.documents[0]
-                    val documentId = documentSnapshot.id
+            postsRef.whereEqualTo("postId", postId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot.documents) {
+                        val postRef = postsRef.document(document.id)
+                        val likes = document.get("like") as ArrayList<String>?
 
-                    val currentUserId = auth.currentUser?.uid // Oturum açmış kullanıcının ID'sini al
-                    val collectionRef = db.collection("Users")
-                    val query = collectionRef.whereEqualTo("userId", "${auth.currentUser?.uid}").limit(1)
-
-                    query.get().addOnSuccessListener { querySnapshot ->
-                        if (!querySnapshot.isEmpty) {
-                            val documentSnapshot = querySnapshot.documents[0]
-                            val documentId2 =
-                                documentSnapshot.id // documentId değişkenine değeri atandı
-                            // Belge ID'sine ulaşabilirsiniz
-                            Log.d(ContentValues.TAG, "Kullanıcı belge ID'si: $documentId")
-                            val id1 = documentId2
-
-                            //kullanıcının likepost alanına ekle
-                            if (currentUserId != null) {
-                                db.collection("Users").document(id1)
-                                    .update(
-                                        "likeposts",
-                                        FieldValue.arrayUnion(
-                                            hashMapOf(
-                                                "postId" to documentId
-                                            )
-                                        )
-                                    )
-                                    .addOnSuccessListener {
-                                        Log.d(
-                                            ContentValues.TAG,
-                                            "User like alanı güncellendi."
-                                        )
-                                        // Güncelleme başarılı olduğunda beğeni butonunun görüntüsünü güncelle
-                                        holder.binding.likeButton.setImageResource(R.drawable.ic_likes_active)
-                                    }
-                                    .addOnFailureListener { exception ->
-                                        // Güncelleme başarısız olduğunda hata mesajı göster
-                                        Log.e(
-                                            ContentValues.TAG,
-                                            "User beğeni güncellenirken hata oluştu: ${exception.localizedMessage}"
-                                        )
-                                    }
-                            }
-
-                            db.collection("Posts").document(documentId)
-                                .update(
-                                    "like",
-                                    FieldValue.arrayUnion(
-                                        hashMapOf(
-                                            "userId" to currentUserId
-                                        )
-                                    )
-                                )
+                        if (likes != null && likes.contains(currentUserId)) {
+                            postRef.update("like", FieldValue.arrayRemove(currentUserId))
                                 .addOnSuccessListener {
-                                    Log.d(
-                                        ContentValues.TAG,
-                                        "Post like alanı güncellendi."
-                                    )
-                                    // Güncelleme başarılı olduğunda beğeni butonunun görüntüsünü güncelle
-                                    holder.binding.likeButton.setImageResource(R.drawable.ic_likes_active)
+                                    println("Like Removed")
+                                    // Burada butonun eski haline dönmesini sağlayabilirsiniz
+                                    holder.binding.likeButton.setImageResource(R.drawable.ic_likes)
                                 }
-                                .addOnFailureListener { exception ->
-                                    // Güncelleme başarısız olduğunda hata mesajı göster
-                                    Log.e(
-                                        ContentValues.TAG,
-                                        "Post beğeni güncellenirken hata oluştu: ${exception.localizedMessage}"
-                                    )
+                                .addOnFailureListener { e ->
+                                    // Hata durumunda yapılacak işlemler
+                                }
+                        } else {
+                            postRef.update("like", FieldValue.arrayUnion(currentUserId))
+                                .addOnSuccessListener {
+                                    println("Like Added")
+                                    // Burada butonun yeni haline dönmesini sağlayabilirsiniz
+                                    // Örneğin: saveButton.setImageResource(R.drawable.like_active)
+                                }
+                                .addOnFailureListener { e ->
+                                    // Hata durumunda yapılacak işlemler
                                 }
                         }
                     }
                 }
-
-            }
+                .addOnFailureListener { e ->
+                    // Hata durumunda yapılacak işlemler
+                }
         }
+
+
+
+            holder.binding.saveButton.setOnClickListener {
+                val postId = postList[position].postId
+                val currentUserId = auth.currentUser!!.uid
+
+                // Firebase Firestore işlemleri
+                val db = FirebaseFirestore.getInstance()
+                val postsRef = db.collection("Posts")
+
+                postsRef.whereEqualTo("postId", postId)
+                    .get()
+                    .addOnSuccessListener { querySnapshot ->
+                        for (document in querySnapshot.documents) {
+                            val postRef = postsRef.document(document.id)
+                            val saves = document.get("save") as ArrayList<String>?
+
+                            if (saves != null && saves.contains(currentUserId)) {
+                                postRef.update("save", FieldValue.arrayRemove(currentUserId))
+                                    .addOnSuccessListener {
+                                        println("Save Removed")
+                                        // Burada butonun eski haline dönmesini sağlayabilirsiniz
+                                        holder.binding.saveButton.setImageResource(R.drawable.save_flag)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        // Hata durumunda yapılacak işlemler
+                                    }
+                            } else {
+                                postRef.update("save", FieldValue.arrayUnion(currentUserId))
+                                    .addOnSuccessListener {
+                                        println("Save Added")
+                                        // Burada butonun yeni haline dönmesini sağlayabilirsiniz
+                                        holder.binding.saveButton.setImageResource(R.drawable.save_flag_active)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        // Hata durumunda yapılacak işlemler
+                                    }
+                            }
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        // Hata durumunda yapılacak işlemler
+                    }
+            }
+
     }
-
-
 }
+
 
 
 

@@ -50,7 +50,6 @@ class HomeFragment : Fragment() {
 
         getDataFromFirestore()
         postClicked (view)
-        chatClicked(view)
         return view
 
 
@@ -76,9 +75,10 @@ class HomeFragment : Fragment() {
                             val downloadUrl = document.get("downloadUrl") as String
                             val userId = document.get("userId") as String
                             val like = document.get("like") as List<String> // like alanını dizi olarak okuyun
-                            val recomment = document.get("recomment") as List<String> // recomment alanını dizi olarak okuyun
+                            val save = document.get("save") as List<String> // recomment alanını dizi olarak okuyun
+                            val postId = document.get("postId") as String
 
-                            val post = Post(comment, downloadUrl, userId, like, recomment)
+                            val post = Post(comment, downloadUrl, userId, like, save,postId)
                             postArrayList.add(post)
                         }
                         adapter!!.notifyDataSetChanged()
@@ -99,14 +99,5 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
     }
-    fun chatClicked (view: View) {
-
-        binding.chatImage.setOnClickListener {
-
-            val action = HomeFragmentDirections.actionHomeFragmentToChatViewFragment()
-            Navigation.findNavController(requireView()).navigate(action)
-        }
-    }
-
 
 }

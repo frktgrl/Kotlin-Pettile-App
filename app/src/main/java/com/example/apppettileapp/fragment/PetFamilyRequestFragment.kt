@@ -1,6 +1,9 @@
 package com.example.apppettileapp.fragment
 
+import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +11,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.apppettileapp.Interface.PetItemClickListener
+import com.example.apppettileapp.activity.FeedActivity
 import com.example.apppettileapp.adapter.PetRequestMyPetAdapter
 import com.example.apppettileapp.databinding.FragmentPetFamilyRequestBinding
 import com.example.apppettileapp.model.PetRequest
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
-
-
+import java.util.HashMap
 
 
 class PetFamilyRequestFragment : Fragment(), PetItemClickListener {
@@ -32,6 +36,12 @@ class PetFamilyRequestFragment : Fragment(), PetItemClickListener {
     override fun onPetItemClick(name: String, downloadUrl: String) {
         binding.requestNameText.text = name
         Picasso.get().load(downloadUrl).into(binding.requestImage)
+
+        // saveButton tıklama olayı
+        binding.postImage.setOnClickListener {
+            saveDataToFirebase(downloadUrl)
+        }
+
     }
 
 
@@ -60,12 +70,13 @@ class PetFamilyRequestFragment : Fragment(), PetItemClickListener {
 
         getDataFromFirestoreUserPet()
 
-
+        //Aile isteği atılacak pet bilgileri
         val downloadUrl = arguments?.getString("downloadUrl")
         val name = arguments?.getString("name")
         val petId = arguments?.getString("petId")
         Picasso.get().load(downloadUrl).into(binding.profileImage)
         binding.profileNameText.text = name
+
 
 
 
@@ -109,5 +120,66 @@ class PetFamilyRequestFragment : Fragment(), PetItemClickListener {
             }
 
     }
+
+    fun saveDataToFirebase(downloadUrlRequest: String) {
+
+        // downloadUrl değerini almak için
+        val downloadUrl = arguments?.getString("downloadUrl")
+
+        val collectionRef = db.collection("Pets")
+        val query = collectionRef.whereEqualTo("downloadUrl", downloadUrl).limit(1)
+
+        query.get().addOnSuccessListener { querySnapshot ->
+            if (!querySnapshot.isEmpty) {
+                val documentSnapshot = querySnapshot.documents[0]
+
+                // "family" dizisine yeni verileri ekleme
+                val family = documentSnapshot.get("family") as? ArrayList<String>
+
+                if (family != null && !family.contains(downloadUrlRequest)) {
+                    family.add(downloadUrlRequest)
+
+                    // Güncellenmiş veriyi Firestore'a kaydetme
+                    documentSnapshot.reference.update("family", family)
+                        .addOnSuccessListener {
+                            // Veri başarıyla güncellendi
+                            Toast.makeText(requireActivity(), "Request Successful", Toast.LENGTH_LONG).show()
+
+                            // Eğer başarılı olursa gönderen kullanıcının dizisine de ekle
+                            val senderCollectionRef = db.collection("Pets")
+                            val senderQuery = senderCollectionRef.whereEqualTo("downloadUrl", downloadUrlRequest).limit(1)
+
+                            senderQuery.get().addOnSuccessListener { senderQuerySnapshot ->
+                                if (!senderQuerySnapshot.isEmpty) {
+                                    val senderDocumentSnapshot = senderQuerySnapshot.documents[0]
+
+                                    // "family" dizisine yeni verileri ekleme
+                                    val senderFamily = senderDocumentSnapshot.get("family") as? ArrayList<String>
+
+                                    if (senderFamily != null && !senderFamily.contains(downloadUrl!!)) {
+                                        senderFamily.add(downloadUrl!!)
+
+                                        // Güncellenmiş veriyi Firestore'a kaydetme
+                                        senderDocumentSnapshot.reference.update("family", senderFamily)
+                                            .addOnSuccessListener {
+                                                // Veri başarıyla güncellendi
+                                            }
+                                            .addOnFailureListener { e ->
+                                                // Hata oluştu, veri güncellenemedi
+                                            }
+                                    }
+                                }
+                            }
+                        }
+                        .addOnFailureListener { e ->
+                            // Hata oluştu, veri güncellenemedi
+                        }
+                }
+            }
+        }
+    }
+
+
+
 
 }

@@ -74,10 +74,8 @@ class AdoptionCreateActivity : AppCompatActivity() {
                         val downloadUrl = it.toString()
 
                         if (auth.currentUser != null) {
-                            val favoriteList = ArrayList<Map<String, Any>>()
-                            val favoriteItem = HashMap<String, Any>()
-                            favoriteItem["userId"] = auth.currentUser!!.uid
-                            favoriteList.add(favoriteItem)
+
+                            val uuidAdoptionPost = UUID.randomUUID() //rastgele id
 
                             val postMap = hashMapOf<String, Any>()
                             postMap["downloadUrl"] = downloadUrl
@@ -86,8 +84,9 @@ class AdoptionCreateActivity : AppCompatActivity() {
                             postMap["location"] = binding.locationInput.text.toString()
                             postMap["date"] = com.google.firebase.Timestamp.now()
                             postMap["userId"] = auth.currentUser!!.uid
-                            postMap["like"] = ArrayList<Map<String, Any>>() // Boş ArrayList ekleniyor
-                            postMap["favorite"] = favoriteList
+                            postMap["favorite"] = ArrayList<Map<String, Any>>() // Boş ArrayList ekleniyor
+                            postMap["adoptionPostId"] = "$uuidAdoptionPost"
+
 
                             firestore.collection("AdoptionPosts").add(postMap).addOnSuccessListener {
                                 Toast.makeText(this, "Upload Successful!", Toast.LENGTH_LONG).show()

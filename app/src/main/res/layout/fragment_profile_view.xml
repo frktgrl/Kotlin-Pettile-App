@@ -46,7 +46,7 @@
                     android:id="@+id/messageButton"
                     style="@style/icon"
                     android:onClick="editProfileClicked"
-                    android:src="@drawable/ic_comments_border"
+                    android:src="@drawable/message"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

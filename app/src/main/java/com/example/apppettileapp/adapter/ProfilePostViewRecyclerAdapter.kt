@@ -3,10 +3,12 @@ package com.example.apppettileapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.apppettileapp.R
 import com.example.apppettileapp.databinding.RecyclerRowPostViewBinding
 import com.example.apppettileapp.databinding.RecyclerRowUserProfileBinding
 import com.example.apppettileapp.model.Post
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
@@ -59,10 +61,116 @@ class ProfilePostViewRecyclerAdapter (private val postArrayList : ArrayList<Post
                         holder.binding.recyclerEmailText.text = username
                         Picasso.get().load(downloadUrl).into(holder.binding.profileImage)
 
+                        for (likeScan in postArrayList[position].like) {
+
+                            if (likeScan == userId){
+
+                                holder.binding.likeButton.setImageResource(R.drawable.ic_likes_active)
+                            }
+                        }
+                        for (saveScan in postArrayList[position].save) {
+
+                            if (saveScan == userId){
+
+                                holder.binding.saveButton.setImageResource(R.drawable.save_flag_active)
+                            }
+                        }
+
 
                     }
 
                 }
             }
+
+
+
+        holder.binding.likeButton.setOnClickListener {
+
+            val postId = postArrayList[position].postId
+            val currentUserId = auth.currentUser!!.uid
+
+            // Firebase Firestore işlemleri
+            val db = FirebaseFirestore.getInstance()
+            val postsRef = db.collection("Posts")
+
+            postsRef.whereEqualTo("postId", postId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot.documents) {
+                        val postRef = postsRef.document(document.id)
+                        val likes = document.get("like") as ArrayList<String>?
+
+                        if (likes != null && likes.contains(currentUserId)) {
+                            postRef.update("like", FieldValue.arrayRemove(currentUserId))
+                                .addOnSuccessListener {
+                                    println("Like Removed")
+                                    // Burada butonun eski haline dönmesini sağlayabilirsiniz
+                                    holder.binding.likeButton.setImageResource(R.drawable.ic_likes)
+                                }
+                                .addOnFailureListener { e ->
+                                    // Hata durumunda yapılacak işlemler
+                                }
+                        } else {
+                            postRef.update("like", FieldValue.arrayUnion(currentUserId))
+                                .addOnSuccessListener {
+                                    println("Like Added")
+                                    // Burada butonun yeni haline dönmesini sağlayabilirsiniz
+                                    // Örneğin: saveButton.setImageResource(R.drawable.like_active)
+                                }
+                                .addOnFailureListener { e ->
+                                    // Hata durumunda yapılacak işlemler
+                                }
+                        }
+                    }
+                }
+                .addOnFailureListener { e ->
+                    // Hata durumunda yapılacak işlemler
+                }
+        }
+
+
+        holder.binding.saveButton.setOnClickListener {
+            val postId = postArrayList[position].postId
+            val currentUserId = auth.currentUser!!.uid
+
+            // Firebase Firestore işlemleri
+            val db = FirebaseFirestore.getInstance()
+            val postsRef = db.collection("Posts")
+
+            postsRef.whereEqualTo("postId", postId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot.documents) {
+                        val postRef = postsRef.document(document.id)
+                        val saves = document.get("save") as ArrayList<String>?
+
+                        if (saves != null && saves.contains(currentUserId)) {
+                            postRef.update("save", FieldValue.arrayRemove(currentUserId))
+                                .addOnSuccessListener {
+                                    println("Save Removed")
+                                    // Burada butonun eski haline dönmesini sağlayabilirsiniz
+                                    holder.binding.saveButton.setImageResource(R.drawable.save_flag)
+                                }
+                                .addOnFailureListener { e ->
+                                    // Hata durumunda yapılacak işlemler
+                                }
+                        } else {
+                            postRef.update("save", FieldValue.arrayUnion(currentUserId))
+                                .addOnSuccessListener {
+                                    println("Save Added")
+                                    // Burada butonun yeni haline dönmesini sağlayabilirsiniz
+                                    holder.binding.saveButton.setImageResource(R.drawable.save_flag_active)
+                                }
+                                .addOnFailureListener { e ->
+                                    // Hata durumunda yapılacak işlemler
+                                }
+                        }
+                    }
+                }
+                .addOnFailureListener { e ->
+                    // Hata durumunda yapılacak işlemler
+                }
+        }
+
     }
 }

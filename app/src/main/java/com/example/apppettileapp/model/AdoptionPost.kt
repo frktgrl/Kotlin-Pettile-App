@@ -6,8 +6,8 @@ data class AdoptionPost(
     val name: String,
     val location: String,
     val userId: String,
-    val like: List<String>,
-    val favorite: List<String>
+    val favorite: List<String>,
+    val adoptionPostId : String
 )
 
 

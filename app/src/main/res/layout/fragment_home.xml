@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="1dp"
                     android:paddingBottom="1dp"
-                    android:src="@drawable/pettile_beyaz"
+                    android:src="@drawable/pettile_png"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -39,19 +39,12 @@
                 <ImageView
                     android:id="@+id/postImage"
                     style="@style/icon"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/ic_share_active"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-                <ImageView
-                    android:id="@+id/chatImage"
-                    style="@style/icon"
                     android:layout_marginEnd="10dp"
-                    android:src="@drawable/ic_comments_border"
+                    android:src="@drawable/ic_share"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

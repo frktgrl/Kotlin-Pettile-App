@@ -83,7 +83,6 @@ class PetAddActivity : AppCompatActivity() {
         //UUID -> image name
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpg"
-
         val petId = UUID.randomUUID().toString()
 
         val storage = Firebase.storage
@@ -97,10 +96,9 @@ class PetAddActivity : AppCompatActivity() {
                 uploadedPictureReference.downloadUrl.addOnSuccessListener { uri ->
                     val downloadUrl = uri.toString()
                     println(downloadUrl)
-                    val familyList = ArrayList<HashMap<String, Any>>() // familyList'in türünü HashMap<String, Any> olarak belirtin
-                    val favoriteItem = HashMap<String, Any>()
-                    favoriteItem["petId"] = petId
-                    familyList.add(favoriteItem)
+
+                    val familyList = ArrayList<Map<String, Any>>()
+
 
                     val postMap = hashMapOf<String, Any>()
                     postMap["userEmail"] = auth.currentUser?.email.toString()

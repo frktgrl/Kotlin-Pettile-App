@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.apppettileapp.R
 import com.example.apppettileapp.databinding.RecyclerRowAdoptionPostBinding
 import com.example.apppettileapp.fragment.AdoptionFragmentDirections
 import com.example.apppettileapp.fragment.AdoptionPostFragmentDirections
@@ -44,6 +45,16 @@ class AdoptionRecyclerAdapter (private val postArrayList : ArrayList<AdoptionPos
         holder.binding.nameText.text = postArrayList.get(position).name // başlık
         holder.binding.locationText.text = postArrayList.get(position).location // başlık
         Picasso.get().load(postArrayList[position].downloadUrl).into(holder.binding.petView) //görsel
+
+        auth = FirebaseAuth.getInstance()
+
+        for (favoriteScan in postArrayList[position].favorite) {
+
+            if (favoriteScan == auth.currentUser!!.uid){
+
+                holder.binding.saveButton.setImageResource(R.drawable.save_flag_active)
+            }
+        }
 
 
         auth = FirebaseAuth.getInstance()
@@ -99,85 +110,46 @@ class AdoptionRecyclerAdapter (private val postArrayList : ArrayList<AdoptionPos
 
 
         holder.binding.saveButton.setOnClickListener {
+            val adoptionPostId = postArrayList[position].adoptionPostId
+            val currentUserId = auth.currentUser!!.uid
 
+            // Firebase Firestore işlemleri
+            val db = FirebaseFirestore.getInstance()
+            val postsRef = db.collection("AdoptionPosts")
 
-            val collectionRef = db.collection("AdoptionPosts")
-            val query = collectionRef.whereEqualTo("downloadUrl", postArrayList[position].downloadUrl).limit(1)
+            postsRef.whereEqualTo("adoptionPostId", adoptionPostId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot.documents) {
+                        val postRef = postsRef.document(document.id)
+                        val favorites = document.get("favorite") as ArrayList<String>?
 
-            query.get().addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
-                    val documentSnapshot = querySnapshot.documents[0]
-                    val documentId = documentSnapshot.id
-
-                    val currentUserId = auth.currentUser?.uid // Oturum açmış kullanıcının ID'sini al
-                    val collectionRef = db.collection("Users")
-                    val query = collectionRef.whereEqualTo("userId", "${auth.currentUser?.uid}").limit(1)
-
-                    query.get().addOnSuccessListener { querySnapshot ->
-                        if (!querySnapshot.isEmpty) {
-                            val documentSnapshot = querySnapshot.documents[0]
-                            val documentId2 = documentSnapshot.id // documentId değişkenine değeri atandı
-                            // Belge ID'sine ulaşabilirsiniz
-                            Log.d(ContentValues.TAG, "Kullanıcı belge ID'si: $documentId")
-                            val id1 = documentId2
-
-                            //kullanıcının likepost alanına ekle
-                            if (currentUserId != null) {
-                                db.collection("Users").document(id1)
-                                    .update(
-                                        "favoriteposts",
-                                        FieldValue.arrayUnion(
-                                            hashMapOf(
-                                                "postId" to documentId
-                                            )
-                                        )
-                                    )
-                                    .addOnSuccessListener {
-                                        Log.d(
-                                            ContentValues.TAG,
-                                            "User favorite alanı güncellendi."
-                                        )
-                                        // Güncelleme başarılı olduğunda beğeni butonunun görüntüsünü güncelle
-                                        // holder.binding.likeButton.setImageResource(R.drawable.ic_likes_active)
-                                    }
-                                    .addOnFailureListener { exception ->
-                                        // Güncelleme başarısız olduğunda hata mesajı göster
-                                        Log.e(
-                                            ContentValues.TAG,
-                                            "User favorite güncellenirken hata oluştu: ${exception.localizedMessage}"
-                                        )
-                                    }
-                            }
-
-                            db.collection("AdoptionPosts").document(documentId)
-                                .update(
-                                    "favorite",
-                                    FieldValue.arrayUnion(
-                                        hashMapOf(
-                                            "userId" to currentUserId
-                                        )
-                                    )
-                                )
+                        if (favorites != null && favorites.contains(currentUserId)) {
+                            postRef.update("favorite", FieldValue.arrayRemove(currentUserId))
                                 .addOnSuccessListener {
-                                    Log.d(
-                                        ContentValues.TAG,
-                                        "Post favorite alanı güncellendi."
-                                    )
-                                    // Güncelleme başarılı olduğunda beğeni butonunun görüntüsünü güncelle
-                                    // holder.binding.likeButton.setImageResource(R.drawable.ic_likes_active)
+                                    println("Favorite Removed")
+                                    // Burada butonun eski haline dönmesini sağlayabilirsiniz
+                                    holder.binding.saveButton.setImageResource(R.drawable.save_flag)
                                 }
-                                .addOnFailureListener { exception ->
-                                    // Güncelleme başarısız olduğunda hata mesajı göster
-                                    Log.e(
-                                        ContentValues.TAG,
-                                        "Post favorite güncellenirken hata oluştu: ${exception.localizedMessage}"
-                                    )
+                                .addOnFailureListener { e ->
+                                    // Hata durumunda yapılacak işlemler
+                                }
+                        } else {
+                            postRef.update("favorite", FieldValue.arrayUnion(currentUserId))
+                                .addOnSuccessListener {
+                                    println("Favorite Added")
+                                    // Burada butonun yeni haline dönmesini sağlayabilirsiniz
+                                    holder.binding.saveButton.setImageResource(R.drawable.save_flag_active)
+                                }
+                                .addOnFailureListener { e ->
+                                    // Hata durumunda yapılacak işlemler
                                 }
                         }
                     }
                 }
-
-            }
+                .addOnFailureListener { e ->
+                    // Hata durumunda yapılacak işlemler
+                }
         }
 
     }

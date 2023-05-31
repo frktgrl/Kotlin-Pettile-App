@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
+    <ImageView
+        android:id="@+id/petIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/pettileLogo"
+        app:layout_constraintEnd_toEndOf="@+id/pettileLogo"
+        app:layout_constraintStart_toStartOf="@+id/pettileLogo"
+        app:srcCompat="@drawable/pet_add" />
+
 
     <ImageView
         android:id="@+id/pettileLogo"
@@ -13,23 +22,22 @@
         android:layout_height="70dp"
         android:layout_marginTop="160dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pettile_beyaz" />
+        app:srcCompat="@drawable/pettile_png" />
 
     <EditText
         android:id="@+id/emailSignIn"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_border"
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pettileLogo" />
+        app:layout_constraintEnd_toEndOf="@+id/pettileLogo"
+        app:layout_constraintStart_toStartOf="@+id/pettileLogo"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
         android:id="@+id/passwordSignIn"
@@ -39,6 +47,7 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
+        android:background="@drawable/edittext_border"
         app:layout_constraintEnd_toEndOf="@+id/emailSignIn"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="@+id/emailSignIn"
@@ -48,7 +57,7 @@
         android:id="@+id/signInButton"
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/button_shape"
         android:onClick="signInButtonClicked"
         android:text="Sign In"
@@ -72,7 +81,16 @@
         app:layout_constraintEnd_toEndOf="@+id/signInButton"
         app:layout_constraintStart_toStartOf="@+id/signInButton" />
 
-
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Login"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pettileLogo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

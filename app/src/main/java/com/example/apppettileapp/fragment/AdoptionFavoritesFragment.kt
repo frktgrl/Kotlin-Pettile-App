@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.apppettileapp.R
 import com.example.apppettileapp.adapter.AdoptionFavoriteRecyclerAdapter
 import com.example.apppettileapp.databinding.FragmentAdoptionFavoritesBinding
 import com.example.apppettileapp.model.AdoptionFavorite
@@ -68,16 +69,17 @@ class AdoptionFavoritesFragment : Fragment() {
                             val location = document.get("location") as String
                             val downloadUrl = document.get("downloadUrl") as String
                             val userId = document.get("userId") as String
-                            val like = document.get("like") as List<String> // like alanını dizi olarak okuyun
-                            val favorite = document.get("favorite") as? List<Map<String, Any>>
+                            val favorite = document.get("favorite") as List<String>
+                            val adoptionPostId = document.get("adoptionPostId") as String
 
-                            if (downloadUrl != null && userId != null && favorite != null && currentUserId != null) {
+                            if (downloadUrl != null && favorite != null && currentUserId != null) {
                                 // Kullanıcının favori postlarını bulma
-                                for (favMap in favorite) {
-                                    if (favMap["userId"] == currentUserId) {
-                                        val post = AdoptionFavorite(downloadUrl,title,name,location, userId,like, favorite)
+                                for (favoriteScan in favorite) {
+
+                                    if (favoriteScan == currentUserId){
+
+                                        val post = AdoptionFavorite(downloadUrl,title,name,location,userId,favorite,adoptionPostId)
                                         postArrayList.add(post)
-                                        break
                                     }
                                 }
                             }

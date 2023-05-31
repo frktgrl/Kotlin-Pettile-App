@@ -74,10 +74,8 @@ class PostCreateActivity : AppCompatActivity() {
                         val downloadUrl = it.toString()
 
                         if (auth.currentUser != null) {
-                            val favoriteList = ArrayList<Map<String, Any>>()
-                            val favoriteItem = HashMap<String, Any>()
-                            favoriteItem["userId"] = auth.currentUser!!.uid
-                            favoriteList.add(favoriteItem)
+
+                            val uuidPost = UUID.randomUUID() //rastgele id
 
                             val postMap = hashMapOf<String, Any>()
                             postMap["downloadUrl"] = downloadUrl
@@ -85,8 +83,8 @@ class PostCreateActivity : AppCompatActivity() {
                             postMap["date"] = com.google.firebase.Timestamp.now()
                             postMap["userId"] = auth.currentUser!!.uid
                             postMap["like"] = ArrayList<Map<String, Any>>() // Boş ArrayList ekleniyor
-                            postMap["recomment"] = ArrayList<Map<String, Any>>() // Boş ArrayList ekleniyor
-
+                            postMap["save"] = ArrayList<Map<String, Any>>() // Boş ArrayList ekleniyor
+                            postMap["postId"] = "$uuidPost"
 
                             firestore.collection("Posts").add(postMap).addOnSuccessListener {
                                 Toast.makeText(this, "Upload Successful!", Toast.LENGTH_LONG).show()

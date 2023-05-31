@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/updateButton"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.ProfileUpdateActivity">
-
-
-  <androidx.constraintlayout.widget.ConstraintLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:background="@color/white">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -28,26 +21,27 @@
           android:layout_height="wrap_content">
 
 
-        <TextView
-            style="@style/toolbar_title"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Edit Profile"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/saveButton"
-            app:layout_constraintStart_toEndOf="@+id/backButtonUpdate"
-            app:layout_constraintTop_toTopOf="parent" />
+          <TextView
+              style="@style/toolbar_title"
+              android:layout_marginTop="10dp"
+              android:layout_marginBottom="10dp"
+              android:text="Edit Profile"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="@+id/saveButton"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageView
             android:id="@+id/backButtonUpdate"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
             android:background="#00FFFFFF"
+            android:src="@drawable/ic_back"
             android:onClick="backButtonUpdateClicked"
-            android:text="Back"
+
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +57,7 @@
             android:background="#00FFFFFF"
             android:onClick="saveButtonClicked"
             android:text="Save"
-            android:textColor="#000000"
+            android:textColor="#5E17EB"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -76,15 +70,14 @@
         android:id="@+id/profileImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:onClick="changePhotoClicked"
         android:src="@drawable/person"
         app:civ_border_color="@color/grey"
         app:civ_border_width="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:contentDescription="Enter Images"/>
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
     <TextView
@@ -99,6 +92,8 @@
     <EditText
         android:id="@+id/nameInput"
         style="@style/edit_profile_input"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edittext_border"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameLabel" />
@@ -114,6 +109,8 @@
     <EditText
         android:id="@+id/usernameInput"
         style="@style/edit_profile_input"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edittext_border"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usernameLabel" />
@@ -130,18 +127,23 @@
     <EditText
         android:id="@+id/bioInput"
         style="@style/edit_profile_input"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edittext_border"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bioLabel" />
 
-
     <Button
         android:id="@+id/signOutButton"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/button_shape"
         android:onClick="signOutButtonClicked"
         android:text="Sign Out"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -149,4 +151,3 @@
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>

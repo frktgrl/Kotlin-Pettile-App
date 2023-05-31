@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/updateButton"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.ProfileCreateActivity">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -48,7 +42,7 @@
                     android:background="#00FFFFFF"
                     android:onClick="saveButtonClicked"
                     android:text="Save"
-                    android:textColor="#000000"
+                    android:textColor="#5E17EB"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +55,7 @@
             android:id="@+id/profileImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             android:onClick="changePhotoClicked"
             android:src="@drawable/person"
             app:civ_border_color="@color/grey"
@@ -75,7 +69,7 @@
             android:id="@+id/nameLabel"
             style="@style/edit_profile_label"
             android:labelFor="@id/nameInput"
-            android:text="Name"
+            android:text="Name *"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileImage" />
@@ -83,6 +77,8 @@
         <EditText
             android:id="@+id/nameInput"
             style="@style/edit_profile_input"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edittext_border"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nameLabel" />
@@ -91,13 +87,15 @@
             android:id="@+id/usernameLabel"
             style="@style/edit_profile_label"
             android:labelFor="@id/usernameInput"
-            android:text="Username"
+            android:text="Username *"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nameInput" />
 
         <EditText
             android:id="@+id/usernameInput"
             style="@style/edit_profile_input"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edittext_border"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/usernameLabel" />
@@ -107,20 +105,41 @@
             android:id="@+id/bioLabel"
             style="@style/edit_profile_label"
             android:labelFor="@id/bioInput"
-            android:text="Biography"
+            android:text="Biography *"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/usernameInput" />
 
         <EditText
             android:id="@+id/bioInput"
             style="@style/edit_profile_input"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edittext_border"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bioLabel" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="50dp"
+            android:text="All fields must be filled."
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/bioInput"
+            app:layout_constraintTop_toBottomOf="@+id/bioInput" />
 
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            android:text="Make sure you upload a photo."
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
