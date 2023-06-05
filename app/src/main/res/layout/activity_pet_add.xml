@@ -25,23 +25,17 @@
                     style="@style/toolbar_title"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="Edit Profile"
+                    android:text=" Create Pet Profile"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/saveButton"
-                    app:layout_constraintStart_toEndOf="@+id/backButton"
+                    app:layout_constraintEnd_toEndOf="@+id/saveButton"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/backButton"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-                    android:background="#00FFFFFF"
-                    android:onClick="backButtonClicked"
-                    android:text="Back"
-                    android:textColor="#000000"
+                <ImageView
+                    android:id="@+id/backImage"
+                    style="@style/icon"
+                    android:onClick="backImageClicked"
+                    android:src="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -56,7 +50,7 @@
                     android:background="#00FFFFFF"
                     android:onClick="saveButtonClicked"
                     android:text="Save"
-                    android:textColor="#000000"
+                    android:textColor="#304FFE"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -66,18 +60,18 @@
         </androidx.appcompat.widget.Toolbar>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/petAddView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:id="@+id/petAddImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="20dp"
-        android:onClick="changePhotoClicked"
-        android:src="@drawable/pet_add"
+        android:contentDescription="Enter Images"
+        android:onClick="selectPetImage"
+        android:src="@drawable/pet_add_icon"
         app:civ_border_color="@color/grey"
         app:civ_border_width="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        android:contentDescription="Enter Images"/>
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
 
@@ -88,10 +82,11 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:background="@drawable/edittext_border"
+        android:hint="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/petAddView" />
+        app:layout_constraintTop_toBottomOf="@+id/petAddImage" />
 
     <EditText
         android:id="@+id/petGenusText"
@@ -100,7 +95,8 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Genus"
+        android:hint="Genus"
+        android:background="@drawable/edittext_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/petNameText" />
@@ -112,7 +108,8 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Gender"
+        android:hint="Gender"
+        android:background="@drawable/edittext_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/petGenusText" />
@@ -124,7 +121,8 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Age"
+        android:hint="Age"
+        android:background="@drawable/edittext_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/petGenderText" />

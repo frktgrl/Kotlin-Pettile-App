@@ -32,7 +32,7 @@
               app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/backButtonUpdate"
+            android:id="@+id/backImage"
             android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_marginStart="1dp"
@@ -40,7 +40,7 @@
             android:layout_marginBottom="1dp"
             android:background="#00FFFFFF"
             android:src="@drawable/ic_back"
-            android:onClick="backButtonUpdateClicked"
+            android:onClick="backImageClicked"
 
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"

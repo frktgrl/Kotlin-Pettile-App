@@ -51,6 +51,13 @@
                         android:textSize="20sp" />
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@android:color/darker_gray" />
+
                 <ImageView
                     android:id="@+id/likeView"
                     android:layout_width="200dp"

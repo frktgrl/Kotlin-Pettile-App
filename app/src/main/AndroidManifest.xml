@@ -14,8 +14,26 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppPettileApp"
+        android:theme="@style/Theme.Pettile"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.FamilyDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PetDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SharedAdoptionPostDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SharedPostDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SaveDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LikesDataActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.SaveActivity"
             android:exported="false" />

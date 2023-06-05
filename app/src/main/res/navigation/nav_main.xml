@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.apppettileapp.fragment.HomeFragment"
+        android:name="com.example.pettile.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.apppettileapp.fragment.SearchFragment"
+        android:name="com.example.pettile.fragment.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/chatViewFragment"
-        android:name="com.example.apppettileapp.fragment.ChatViewFragment"
+        android:name="com.example.pettile.fragment.ChatViewFragment"
         android:label="fragment_chat_view"
         tools:layout="@layout/fragment_chat_view" >
         <action
@@ -41,12 +41,12 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.apppettileapp.fragment.ProfileFragment"
+        android:name="com.example.pettile.fragment.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/adoptionFragment"
-        android:name="com.example.apppettileapp.fragment.AdoptionFragment"
+        android:name="com.example.pettile.fragment.AdoptionFragment"
         android:label="fragment_adoption"
         tools:layout="@layout/fragment_adoption" >
         <action
@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.example.apppettileapp.fragment.ChatFragment"
+        android:name="com.example.pettile.fragment.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" >
         <argument
@@ -85,7 +85,7 @@
 
     <fragment
         android:id="@+id/profileViewFragment"
-        android:name="com.example.apppettileapp.fragment.ProfileViewFragment"
+        android:name="com.example.pettile.fragment.ProfileViewFragment"
         android:label="Profile View"
         tools:layout="@layout/fragment_profile_view" >
 
@@ -118,7 +118,7 @@
 
     <fragment
         android:id="@+id/adoptionPostFragment"
-        android:name="com.example.apppettileapp.fragment.AdoptionPostFragment"
+        android:name="com.example.pettile.fragment.AdoptionPostFragment"
         android:label="fragment_adoption_post"
         tools:layout="@layout/fragment_adoption_post">
         <action
@@ -130,7 +130,7 @@
     </fragment>
     <fragment
         android:id="@+id/adoptionFavoritesFragment"
-        android:name="com.example.apppettileapp.fragment.AdoptionFavoritesFragment"
+        android:name="com.example.pettile.fragment.AdoptionFavoritesFragment"
         android:label="fragment_adoption_favorites"
         tools:layout="@layout/fragment_adoption_favorites" >
         <action
@@ -142,12 +142,12 @@
     </fragment>
     <fragment
         android:id="@+id/profilePetFragment"
-        android:name="com.example.apppettileapp.fragment.ProfilePetFragment"
+        android:name="com.example.pettile.fragment.ProfilePetFragment"
         android:label="fragment_profile_pet"
         tools:layout="@layout/fragment_profile_pet" />
     <fragment
         android:id="@+id/petFamilyRequestFragment"
-        android:name="com.example.apppettileapp.fragment.PetFamilyRequestFragment"
+        android:name="com.example.pettile.fragment.PetFamilyRequestFragment"
         android:label="fragment_pet_family_request"
         tools:layout="@layout/fragment_pet_family_request">
 
@@ -164,7 +164,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFamilyViewFragment"
-        android:name="com.example.apppettileapp.fragment.ProfileFamilyViewFragment"
+        android:name="com.example.pettile.fragment.ProfileFamilyViewFragment"
         android:label="fragment_profile_family_view"
         tools:layout="@layout/fragment_profile_family_view" />
 

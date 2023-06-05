@@ -26,23 +26,14 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/back_image"
+                    android:id="@+id/backImage"
                     style="@style/icon"
+                    android:onClick="backImageClicked"
                     android:src="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/backText"
-                    style="@style/toolbar_title"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Back"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/back_image"
-                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <Button
@@ -66,9 +57,10 @@
                     android:text="Create Post"
                     android:textColor="#000000"
                     android:textSize="20sp"
-                    app:layout_constraintEnd_toStartOf="@+id/shareButton"
-                    app:layout_constraintStart_toEndOf="@+id/backText"
-                    app:layout_constraintTop_toTopOf="@+id/backText" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -79,8 +71,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
-            android:onClick="changePhotoClicked"
-            android:src="@drawable/person"
+            android:onClick="selectPostImage"
+            android:src="@drawable/post_add_icon"
             app:civ_border_color="@color/grey"
             app:civ_border_width="1dp"
             app:layout_constraintEnd_toEndOf="parent"
