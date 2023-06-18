@@ -39,6 +39,7 @@
                     android:layout_width="0dp"
                     android:background="@android:color/transparent"
                     android:hint="Search"
+                    android:maxLength="50"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"

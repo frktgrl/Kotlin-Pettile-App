@@ -7,6 +7,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.pettile.R
 import com.example.pettile.databinding.ActivityFeedBinding
+import com.example.pettile.fragment.HomeFragmentDirections
+import com.example.pettile.fragment.ProfileViewFragmentDirections
 import com.onesignal.OneSignal
 
 class FeedActivity : AppCompatActivity() {
@@ -29,14 +31,6 @@ class FeedActivity : AppCompatActivity() {
 
         oneSignal()
 
-        val selectedTab = intent.getIntExtra("selectedTab", -1) // selectedTab verisini alıyoruz
-
-        if (selectedTab == 3) {
-            navController.navigate(R.id.adoptionFragment)
-        }
-        if (selectedTab == 5) {
-            navController.navigate(R.id.profileFragment)
-        }
 
     }
 

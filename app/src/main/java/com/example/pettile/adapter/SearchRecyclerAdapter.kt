@@ -48,6 +48,7 @@ class SearchRecyclerAdapter(private val userArrayList : ArrayList<UserSearch>) :
             userId = userArrayList[position].userId,
             followers = userArrayList[position].followers,
             following = userArrayList[position].following,
+            whichfragment = "searchfragment"
 
         )
         if (userArrayList[position].userId != "${auth.currentUser?.uid}") {

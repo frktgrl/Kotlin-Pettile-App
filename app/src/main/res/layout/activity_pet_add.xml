@@ -73,7 +73,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-
+    <TextView
+        android:id="@+id/selectPhotoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Select a Photo"
+        android:textColor="#020202"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/petAddImage" />
 
     <EditText
         android:id="@+id/petNameText"
@@ -84,9 +94,10 @@
         android:inputType="textPersonName"
         android:background="@drawable/edittext_border"
         android:hint="Name"
+        android:maxLength="50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/petAddImage" />
+        app:layout_constraintTop_toBottomOf="@+id/selectPhotoText" />
 
     <EditText
         android:id="@+id/petGenusText"
@@ -97,6 +108,7 @@
         android:inputType="textPersonName"
         android:hint="Genus"
         android:background="@drawable/edittext_border"
+        android:maxLength="50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/petNameText" />
@@ -109,6 +121,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Gender"
+        android:maxLength="50"
         android:background="@drawable/edittext_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,8 +133,9 @@
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Age"
+        android:inputType="number"
+        android:maxLength="50"
         android:background="@drawable/edittext_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

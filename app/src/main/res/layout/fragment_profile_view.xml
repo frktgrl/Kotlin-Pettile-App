@@ -24,20 +24,24 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:layout_editor_absoluteX="16dp">
 
-                <TextView
-                    android:id="@+id/usernameText"
-                    style="@style/toolbar_title"
+                <ImageView
+                    android:id="@+id/backImage"
+                    style="@style/icon"
+                    android:onClick="backImageClicked"
+                    android:src="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="user.name" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <ImageView
                     android:id="@+id/addUserImage"
                     style="@style/icon"
-                    android:src="@drawable/ic_add_friends"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/messageButton"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -72,12 +76,11 @@
 
 
         <TextView
-            android:id="@+id/biographyText"
+            android:id="@+id/usernameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Biography"
+            android:text="Uername"
             android:textAlignment="center"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameText" />
@@ -89,7 +92,7 @@
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/biographyText">
+            app:layout_constraintTop_toBottomOf="@+id/usernameText">
 
             <TextView
                 android:id="@+id/followersText"

@@ -88,7 +88,7 @@ class PetFamilyRequestFragment : Fragment(), PetItemClickListener {
             .whereEqualTo("userId", "${auth.currentUser?.uid}")
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_LONG).show()
+                    // Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_LONG).show()
                 } else {
 
                     if (snapshot != null) {

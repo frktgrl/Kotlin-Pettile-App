@@ -53,7 +53,12 @@ class SearchFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val searchText = s.toString().trim()
-                getDataFromFirestoreUser(searchText,context!!)
+                if (searchText.isNotEmpty()) {
+                    getDataFromFirestoreUser(searchText, context!!)
+                } else {
+                    userArrayList.clear()
+                    adapter?.notifyDataSetChanged()
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -71,7 +76,7 @@ class SearchFragment : Fragment() {
             .endAt(str + "\uf8ff")
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
+                   // Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
                 } else {
                     if (snapshot != null) {
                         if (!snapshot.isEmpty) {

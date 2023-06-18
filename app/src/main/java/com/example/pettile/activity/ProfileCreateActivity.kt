@@ -53,63 +53,125 @@ class ProfileCreateActivity : AppCompatActivity() {
         //Verileri Kaydetme
         binding.saveButton.setOnClickListener {
 
-            println("girdi")
+            val usersCollection = FirebaseFirestore.getInstance().collection("Users")
 
-            //UUID -> image name
-            val uuid = UUID.randomUUID()
-            val imageName = "$uuid.jpg"
+            usersCollection.whereEqualTo("username", binding.usernameInput.text.toString())
+                .get()
+                .addOnSuccessListener { documents ->
 
-            val storage = Firebase.storage
-            val reference = storage.reference
-            val imagesReference = reference.child("imagesUser").child(imageName)
+                   //Kullanıcı adına sahip belgereli döndür eğer belge boşsa alınabilir.
+                    if (documents.isEmpty) {
 
-            if (selectedPicture != null) {
-                imagesReference.putFile(selectedPicture!!).addOnSuccessListener { taskSnapshot ->
+                        // Kullanıcı adı benzersiz, kaydedilebilir
 
-                    val uploadedPictureReference = storage.reference.child("imagesUser").child(imageName)
-                    uploadedPictureReference.downloadUrl.addOnSuccessListener { uri ->
-                        val downloadUrl = uri.toString()
-                        println(downloadUrl)
+                        //UUID -> image name
+                        val uuid = UUID.randomUUID()
+                        val imageName = "$uuid.jpg"
 
-                        val postMap = hashMapOf<String, Any>()
-                        postMap.put("downloadUrl", downloadUrl)
-                        postMap.put("name", binding.nameInput.text.toString())
-                        postMap.put("userEmail", "${auth.currentUser?.email.toString()}")
-                        postMap.put("userId", "${auth.currentUser?.uid}")
-                        postMap.put("username", binding.usernameInput.text.toString())
-                        postMap.put("biography", binding.bioInput.text.toString())
-                        postMap.put("date", Timestamp.now())
-                        postMap.put("followers", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
-                        postMap.put("following", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
+                        val storage = Firebase.storage
+                        val reference = storage.reference
+                        val imagesReference = reference.child("imagesUser").child(imageName)
+
+                        if (selectedPicture != null) {
+                            imagesReference.putFile(selectedPicture!!).addOnSuccessListener { taskSnapshot ->
+
+                                val uploadedPictureReference = storage.reference.child("imagesUser").child(imageName)
+                                uploadedPictureReference.downloadUrl.addOnSuccessListener { uri ->
+                                    val downloadUrl = uri.toString()
+                                    println(downloadUrl)
+
+                                    val postMap = hashMapOf<String, Any>()
+                                    postMap.put("downloadUrl", downloadUrl)
+                                    postMap.put("name", binding.nameInput.text.toString())
+                                    postMap.put("userEmail", "${auth.currentUser?.email.toString()}")
+                                    postMap.put("userId", "${auth.currentUser?.uid}")
+                                    postMap.put("username", binding.usernameInput.text.toString())
+                                    postMap.put("biography", binding.bioInput.text.toString())
+                                    postMap.put("date", Timestamp.now())
+                                    postMap.put("followers", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
+                                    postMap.put("following", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
 
 
 
-                        db.collection( "Users").add(postMap).addOnCompleteListener{task ->
+                                    db.collection( "Users").add(postMap).addOnCompleteListener{task ->
 
-                            if (task.isComplete && task.isSuccessful) {
+                                        if (task.isComplete && task.isSuccessful) {
 
-                                Toast.makeText(this@ProfileCreateActivity, "Registration Successful", Toast.LENGTH_LONG).show()
-                                finish()
-                                val intent = Intent(applicationContext, FeedActivity::class.java)
-                                startActivity(intent)
-                                finish()
+                                            Toast.makeText(this@ProfileCreateActivity, "Registration Successful", Toast.LENGTH_LONG).show()
+                                            finish()
+                                            val intent = Intent(applicationContext, FeedActivity::class.java)
+                                            startActivity(intent)
+                                            finish()
+
+                                        }
+
+                                    }.addOnFailureListener{exception ->
+                                        Toast.makeText(applicationContext,exception.localizedMessage,Toast.LENGTH_LONG).show()
+                                    }
+
+
+                                }
 
                             }
 
-                        }.addOnFailureListener{exception ->
-                            Toast.makeText(applicationContext,exception.localizedMessage,Toast.LENGTH_LONG).show()
+                        } else  {
+
+                            // Fotoğraf seçilmemiş, varsayılan fotoğrafı kullanın
+                            val defaultImageUri = Uri.parse("android.resource://com.example.pettile/drawable/person")
+
+                            imagesReference.putFile(defaultImageUri!!).addOnSuccessListener { taskSnapshot ->
+
+                                val uploadedPictureReference = storage.reference.child("imagesUser").child(imageName)
+                                uploadedPictureReference.downloadUrl.addOnSuccessListener { uri ->
+                                    val downloadUrl = uri.toString()
+                                    println(downloadUrl)
+
+                                    val postMap = hashMapOf<String, Any>()
+                                    postMap.put("downloadUrl", downloadUrl)
+                                    postMap.put("name", binding.nameInput.text.toString())
+                                    postMap.put("userEmail", "${auth.currentUser?.email.toString()}")
+                                    postMap.put("userId", "${auth.currentUser?.uid}")
+                                    postMap.put("username", binding.usernameInput.text.toString())
+                                    postMap.put("biography", binding.bioInput.text.toString())
+                                    postMap.put("date", Timestamp.now())
+                                    postMap.put("followers", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
+                                    postMap.put("following", ArrayList<Map<String, Any>>()) // Boş ArrayList ekleniyor
+
+
+
+                                    db.collection( "Users").add(postMap).addOnCompleteListener{task ->
+
+                                        if (task.isComplete && task.isSuccessful) {
+
+                                            Toast.makeText(this@ProfileCreateActivity, "Registration Successful", Toast.LENGTH_LONG).show()
+                                            finish()
+                                            val intent = Intent(applicationContext, FeedActivity::class.java)
+                                            startActivity(intent)
+                                            finish()
+
+                                        }
+
+                                    }.addOnFailureListener{exception ->
+                                        Toast.makeText(applicationContext,exception.localizedMessage,Toast.LENGTH_LONG).show()
+                                    }
+
+
+                                }
+
+                            }
+
                         }
 
-
+                    } else {
+                        // Kullanıcı adı daha önce kaydedilmiş, hata mesajı gösterilebilir
+                        Toast.makeText(this@ProfileCreateActivity, "Username is used. Not available", Toast.LENGTH_LONG).show()
                     }
-
+                }
+                .addOnFailureListener { exception ->
+                    // Sorgu hatası oluştu, hata mesajı gösterilebilir
                 }
 
-            }
-
-
         }
-
 
     }
 

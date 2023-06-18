@@ -53,7 +53,7 @@ class AdoptionPostFragment : Fragment() {
         db.collection("AdoptionPosts").orderBy("date",
             Query.Direction.DESCENDING).addSnapshotListener { snapshot, exception ->
             if (exception != null) {
-                Toast.makeText(context,exception.localizedMessage, Toast.LENGTH_LONG).show()
+                // Toast.makeText(requireActivity(),exception.localizedMessage, Toast.LENGTH_LONG).show()
             } else {
 
                 if (snapshot != null) {

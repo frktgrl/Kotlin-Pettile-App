@@ -14,10 +14,10 @@ class SaveActivity : AppCompatActivity() {
 
     fun backImageClicked (view : View) {
 
-        val intent = Intent(this, FeedActivity::class.java)
-        intent.putExtra("selectedTab", 5) // AdoptionFragment'ı açmak için seçili sekmenin indeksini iletiyoruz
+        val intent = Intent(applicationContext, FeedActivity::class.java)
         startActivity(intent)
-        finish() // AdoptionCreateActivity'yi kapatıyoruz
+        finish()
+
     }
 
 

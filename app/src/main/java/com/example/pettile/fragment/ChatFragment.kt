@@ -2,24 +2,26 @@ package com.example.pettile.fragment
 
 import android.graphics.Rect
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pettile.adapter.ChatRecyclerAdapter
 import com.example.pettile.databinding.FragmentChatBinding
-import com.example.pettile.databinding.FragmentHomeBinding
 import com.example.pettile.model.Chat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 
 
 class ChatFragment : Fragment() {
+
 
     private lateinit var binding: FragmentChatBinding
     private lateinit var adapter: ChatRecyclerAdapter
@@ -27,6 +29,7 @@ class ChatFragment : Fragment() {
     private lateinit var auth : FirebaseAuth
     private var chats = arrayListOf<Chat>()
     private lateinit var layoutManager: LinearLayoutManager
+    private var downloadUrlMessageSend: String? = null
 
 
 
@@ -56,21 +59,49 @@ class ChatFragment : Fragment() {
         val name = arguments?.getString("name")
         val downloadUrl = arguments?.getString("downloadUrl")
         val userId = arguments?.getString("userId")
-        // Diğer verileri de bundle'dan alabilirsiniz
+        val followers = arguments?.getStringArrayList("followers")
+        val following = arguments?.getStringArrayList("following")
+        var whichfragment = arguments?.getString("whichfragment")
 
         println(userEmail)
         println(username)
         println(name)
+        println(whichfragment)
 
         // UI bileşenlerine verileri atama
         binding.usernameText.text= username
         Picasso.get().load(downloadUrl).into(binding.profileImage)
 
+
         binding.backImage.setOnClickListener {
 
-            requireActivity().supportFragmentManager.popBackStack()
+            var profileview = "profileview"
+
+            if (whichfragment == profileview) {
+
+                val action = ChatFragmentDirections.actionChatFragmentToProfileViewFragment(
+                    name = name.toString(),
+                    username = username.toString(),
+                    downloadUrl = downloadUrl.toString(),
+                    userId = userId.toString(),
+                    followers = followers.toString(),
+                    following = following.toString(),
+                    whichfragment = "homefragment"
+
+                )
+                Navigation.findNavController(view).navigate(action)
+
+            }
+            if (whichfragment == "chatview") {
+
+            val action = ChatFragmentDirections.actionChatFragmentToChatViewFragment()
+
+            Navigation.findNavController(view).navigate(action)
 
         }
+
+        }
+
 
         return view
     }
@@ -81,6 +112,31 @@ class ChatFragment : Fragment() {
         binding.chatRecyclerView.adapter = adapter
         binding.chatRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        //mevcut kullanıcının bilgileri
+        firestore.collection("Users")
+            .whereEqualTo("userId", "${auth.currentUser?.uid}")
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                   // Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_LONG).show()
+                } else {
+
+                    if (snapshot != null) {
+                        if (!snapshot.isEmpty) {
+
+                            val documents = snapshot.documents
+                            for (document in documents) {
+
+                                downloadUrlMessageSend = document.getString("downloadUrl")
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+
+
         binding.sendButton.setOnClickListener {
 
             val chatText = binding.chatText.text.toString()
@@ -89,7 +145,6 @@ class ChatFragment : Fragment() {
             //chatlerin kimle kim arasında olduğunu
             val username = arguments?.getString("username")
             val name = arguments?.getString("name")
-            val downloadUrl = arguments?.getString("downloadUrl")
             val userId = arguments?.getString("userId")
             val userTo = userId+"${auth.currentUser?.uid}" // bundledan gelen mesaj gönderilecek kişi ve oturum açmış kişinin userId birleşimi
             //chatlerin kimle kim arasında olduğunu
@@ -101,7 +156,7 @@ class ChatFragment : Fragment() {
             dataMap.put("userTo",userTo)
             dataMap.put("username", username!!)
             dataMap.put("name",name!!)
-            dataMap.put("downloadUrl",downloadUrl!!)
+            dataMap.put("downloadUrl", downloadUrlMessageSend!!)
 
 
             firestore.collection("Chats").add(dataMap).addOnSuccessListener {
@@ -125,7 +180,7 @@ class ChatFragment : Fragment() {
             ))
             .addSnapshotListener { value, error ->
                 if (error != null) {
-                    Toast.makeText(requireContext(), error.localizedMessage, Toast.LENGTH_LONG).show()
+                  //  Toast.makeText(requireContext(), error.localizedMessage, Toast.LENGTH_LONG).show()
                     return@addSnapshotListener
                 }
 

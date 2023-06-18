@@ -29,13 +29,12 @@
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="40dp"
+                    android:layout_marginEnd="10dp"
                     android:paddingTop="1dp"
                     android:paddingBottom="1dp"
                     android:src="@drawable/message"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/userNameText"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.687" />
 
@@ -43,12 +42,12 @@
                     android:id="@+id/userNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:text="Messages"
                     android:textColor="#000000"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/imageView"
                     app:layout_constraintVertical_bias="0.571" />
 

@@ -79,6 +79,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
+        <TextView
+            android:id="@+id/selectPhotoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Select a Photo"
+            android:textColor="#020202"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/petImage" />
+
 
         <TextView
             android:id="@+id/titleLabel"
@@ -88,16 +100,19 @@
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/titleInput"
             app:layout_constraintStart_toStartOf="@+id/titleInput"
-            app:layout_constraintTop_toBottomOf="@+id/petImage" />
+            app:layout_constraintTop_toBottomOf="@+id/selectPhotoText" />
 
         <EditText
             android:id="@+id/titleInput"
             style="@style/edit_profile_input"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
-            android:inputType="text"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:maxLength="250"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleLabel" />
 

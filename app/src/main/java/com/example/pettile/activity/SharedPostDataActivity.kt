@@ -49,7 +49,7 @@ class SharedPostDataActivity : AppCompatActivity() {
             .orderBy("date", Query.Direction.DESCENDING).
             addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG).show()
+                   // Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG).show()
                 } else {
 
                     if (snapshot != null) {

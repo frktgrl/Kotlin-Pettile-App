@@ -82,7 +82,8 @@ class FeedRecyclerAdapter(private val postList: ArrayList<Post>) :
                                 downloadUrl = downloadUrl,
                                 userId = userId,
                                 followers = followers,
-                                following = following
+                                following = following,
+                                whichfragment = "homefragment"
                             )
 
                         // Kullanıcı kendisi ise profil sayfasına değilse görüntülemeye

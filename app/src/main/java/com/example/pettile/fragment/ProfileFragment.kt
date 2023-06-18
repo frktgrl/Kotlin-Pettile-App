@@ -19,6 +19,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.squareup.picasso.Picasso
 
 
@@ -67,6 +68,7 @@ class ProfileFragment : Fragment() {
 
 
         getDataFromFirestoreUser()
+        getDataFromFirestoreUserPets()
         editProfileButtonClicked(view)
         petAddButtonClicked(view)
         myActivityButtonClicked(view)
@@ -106,7 +108,7 @@ class ProfileFragment : Fragment() {
             .whereEqualTo("userId", "${auth.currentUser?.uid}")
             .addSnapshotListener { snapshot, exception ->
             if (exception != null) {
-                Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_LONG).show()
+                // Toast.makeText(requireContext(), exception.localizedMessage, Toast.LENGTH_LONG).show()
             } else {
 
                 if (snapshot != null) {
@@ -164,6 +166,23 @@ class ProfileFragment : Fragment() {
             val intent = Intent(activity, SaveActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    fun getDataFromFirestoreUserPets() {
+
+        db.collection("Pets")
+            .whereEqualTo("userId", "${auth.currentUser?.uid}")
+            .orderBy("date", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    // Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
+                } else {
+                    if (snapshot != null) {
+
+                        binding.petNumberText.text = snapshot.size().toString() // Snapshot'tan pet sayısını alın
+                    }
+                }
+            }
     }
 
 

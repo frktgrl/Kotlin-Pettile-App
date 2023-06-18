@@ -93,6 +93,7 @@
             style="@style/edit_profile_input"
             android:inputType="text"
             android:background="@drawable/edittext_border"
+            android:maxLength="100"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleLabel" />
 
@@ -109,6 +110,7 @@
             style="@style/edit_profile_input"
             android:inputType="text"
             android:background="@drawable/edittext_border"
+            android:maxLength="50"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nameLabel" />
 
@@ -126,6 +128,7 @@
             style="@style/edit_profile_input"
             android:inputType="text"
             android:background="@drawable/edittext_border"
+            android:maxLength="100"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/locationLabel" />
 

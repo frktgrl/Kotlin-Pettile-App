@@ -46,15 +46,14 @@ class AdoptionCreateActivity : AppCompatActivity() {
 
     //Geri butonuna basıldığında AdoptionFragmenta dönmek için (3) değerini gönder
     fun backImageClicked(view: View) {
-        val intent = Intent(this, FeedActivity::class.java)
-        intent.putExtra("selectedTab", 3) // AdoptionFragment'ı açmak için seçili sekmenin indeksini iletiyoruz
+        val intent = Intent(applicationContext, FeedActivity::class.java)
         startActivity(intent)
-        finish() // AdoptionCreateActivity'yi kapatıyoruz
+        finish()
+
     }
 
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdoptionCreateBinding.inflate(layoutInflater)
         val view = binding.root

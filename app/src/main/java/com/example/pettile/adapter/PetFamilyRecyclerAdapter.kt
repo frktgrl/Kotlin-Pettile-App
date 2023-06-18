@@ -120,11 +120,11 @@ class PetFamilyRecyclerAdapter(private val petFamilyList: ArrayList<PetFamily>) 
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
-                buttonLayoutParams.setMargins(0, 10, 0, 0) // Yukarıdan 10dp boşluk bırakılıyor
+                buttonLayoutParams.setMargins(-20, 10, 0, 0) // Yukarıdan 10dp boşluk bırakılıyor
                 button.layoutParams = buttonLayoutParams
-                button.setBackgroundResource(R.drawable.ic_close) // Arka plan olarak ic_close kullanılıyor
+                button.setBackgroundResource(R.drawable.baseline_clear_24) // Arka plan olarak ic_close kullanılıyor
                 button.scaleX = 0.4f // X ekseninde boyutu küçültülüyor
-                button.scaleY = 0.5f // Y ekseninde boyutu küçültülüyor
+                button.scaleY = 0.43f // Y ekseninde boyutu küçültülüyor
                 linearLayout.addView(button)
 
                 familyContainer.addView(linearLayout)

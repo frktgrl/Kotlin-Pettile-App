@@ -61,7 +61,8 @@ class AdoptionFavoriteRecyclerAdapter (private var postArrayList : ArrayList<Ado
                                 downloadUrl = downloadUrl,
                                 userId = userId,
                                 followers = followers,
-                                following = following
+                                following = following,
+                                whichfragment = "adoptionfragment"
                             )
 
                         // Kullanıcı kendisi ise profil sayfasına değilse görüntülemeye

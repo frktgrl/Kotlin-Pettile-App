@@ -13,7 +13,6 @@ import com.example.pettile.databinding.FragmentAdoptionBinding
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-//ART BOOK İZİNLER
 class AdoptionFragment : Fragment() {
 
 

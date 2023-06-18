@@ -39,9 +39,10 @@
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/petImage"
                         android:layout_width="120dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="120dp"
                         android:src="@drawable/pet_add"
                         app:civ_border_width="1dp"
+                        android:layout_marginTop="10dp"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintHorizontal_weight="2"
                         app:layout_constraintStart_toStartOf="parent"

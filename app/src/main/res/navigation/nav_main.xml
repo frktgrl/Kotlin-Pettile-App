@@ -76,9 +76,21 @@
         <argument
             android:name="userId"
             app:argType="string" />
+        <argument
+            android:name="followers"
+            app:argType="string" />
+        <argument
+            android:name="following"
+            app:argType="string" />
+        <argument
+            android:name="whichfragment"
+            app:argType="string" />
         <action
             android:id="@+id/action_chatFragment_to_chatViewFragment"
             app:destination="@id/chatViewFragment" />
+        <action
+            android:id="@+id/action_chatFragment_to_profileViewFragment"
+            app:destination="@id/profileViewFragment" />
 
 
     </fragment>
@@ -107,6 +119,9 @@
         <argument
             android:name="following"
             app:argType="string" />
+        <argument
+            android:name="whichfragment"
+            app:argType="string" />
 
         <action
             android:id="@+id/action_profileViewFragment_to_chatFragment"
@@ -114,6 +129,18 @@
         <action
             android:id="@+id/action_profileViewFragment_to_petFamilyRequestFragment"
             app:destination="@id/petFamilyRequestFragment" />
+        <action
+            android:id="@+id/action_profileViewFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_profileViewFragment_to_adoptionFavoritesFragment"
+            app:destination="@id/adoptionFavoritesFragment" />
+        <action
+            android:id="@+id/action_profileViewFragment_to_adoptionFragment"
+            app:destination="@id/adoptionFragment" />
+        <action
+            android:id="@+id/action_profileViewFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment

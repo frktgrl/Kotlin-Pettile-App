@@ -55,7 +55,7 @@ class ChatViewFragment : Fragment() {
             .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
+                  //  Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
                 } else {
 
                     if (snapshot != null) {
@@ -63,6 +63,7 @@ class ChatViewFragment : Fragment() {
 
                             chatArrayList.clear()
 
+                            //mesaj gönderen kişiyi listelerken daha önce göndermiş mi diye bak.
                             val documents = snapshot.documents
                             val uniqueDownloadUrls = HashSet<String>() // Gönderilen downloadUrl'leri tutmak için bir küme oluştur
                             val uniqueUsernames = HashSet<String>() // Gönderilen username'leri tutmak için bir küme oluştur
@@ -88,11 +89,7 @@ class ChatViewFragment : Fragment() {
                                         .whereEqualTo("userId", otherUserId)
                                         .addSnapshotListener { snapshot, exception ->
                                             if (exception != null) {
-                                                Toast.makeText(
-                                                    requireContext(),
-                                                    exception.localizedMessage,
-                                                    Toast.LENGTH_LONG
-                                                ).show()
+                                               // Toast.makeText( requireContext(), exception.localizedMessage, Toast.LENGTH_LONG).show()
                                             } else {
 
                                                 if (snapshot != null) {
@@ -105,6 +102,8 @@ class ChatViewFragment : Fragment() {
                                                             val userId = document.get("userId") as String
                                                             val username = document.get("username") as String
                                                             val downloadUrl = document.get("downloadUrl") as String
+                                                            val followers = document.get("followers") as List<String> // followers alanını dizi olarak al
+                                                            val following = document.get("following") as List<String>
 
                                                             println(name)
                                                             println(username)
@@ -114,10 +113,10 @@ class ChatViewFragment : Fragment() {
 
                                                                 uniqueDownloadUrls.add(downloadUrl) // Kümeye ekle
                                                                 uniqueUsernames.add(username) // Kümeye ekle
-                                                                uniqueUsernames.add(name)
-                                                                uniqueUsernames.add(userId)
-                                                                uniqueUsernames.add(userEmail)
-                                                                val chatview = ChatView(downloadUrl,username,name,userId,userEmail)
+                                                                uniqueNames.add(name)
+                                                                uniqueUserId.add(userId)
+                                                                uniqueUserEmail.add(userEmail)
+                                                                val chatview = ChatView(downloadUrl,username,name,userId,userEmail, followers, following )
                                                                 chatArrayList.add(chatview)
                                                             }
                                                             adapter!!.notifyDataSetChanged()

@@ -56,7 +56,7 @@ class ProfilePostViewFragment() : Fragment() {
             .orderBy("date", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
-                    Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
+                   // Toast.makeText(context, exception.localizedMessage, Toast.LENGTH_LONG).show()
                 } else {
                     if (snapshot != null && !snapshot.isEmpty) {
                         postArrayList.clear()

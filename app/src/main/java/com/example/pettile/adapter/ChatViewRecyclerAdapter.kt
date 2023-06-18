@@ -30,13 +30,17 @@ class ChatViewRecyclerAdapter (private val chatList : ArrayList<ChatView>) : Rec
         holder.binding.usernameText.text = chatList.get(position).username
         Picasso.get().load(chatList[position].downloadUrl).into(holder.binding.userPhotoView)
 
+
         //CardViewa tıkla sohbet ekranına gitsin
         val action = ChatViewFragmentDirections.actionChatViewFragmentToChatFragment(
             userEmail = chatList[position].userEmail,
             name = chatList[position].name,
             username = chatList.get(position).username,
             downloadUrl = chatList[position].downloadUrl,
-            userId = chatList[position].userId
+            userId = chatList[position].userId,
+            followers = chatList[position].followers.toString(),
+            following = chatList[position].following.toString(),
+            whichfragment = "chatview"
 
         )
         //CardViewa tıkla sohbet ekranına gitsin

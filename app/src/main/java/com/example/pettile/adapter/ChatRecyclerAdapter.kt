@@ -22,6 +22,7 @@ class ChatRecyclerAdapter : RecyclerView.Adapter<ChatRecyclerAdapter.ChatHolder>
 
 
     class ChatHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+
         val message: TextView = itemView.findViewById(R.id.message)
         val profileImage: ImageView = itemView.findViewById(R.id.profileImage)
 

@@ -136,6 +136,11 @@ class ProfileUpdateActivity : AppCompatActivity() {
 
     //Çıkış Yap butonu
     fun signOutButtonClicked(view: View) {
+        // auth değişkenini kullanmadan önce doğru şekilde başlatıldığından emin olun
+        val auth = FirebaseAuth.getInstance()
+
+        // Çıkış yapmadan önce petleri almayı durdurmak için SnapshotListener'ı kaldırın
+        // snapshotListener?.remove()
 
         auth.signOut()
         val intent = Intent(applicationContext, MainActivity::class.java)
@@ -146,10 +151,10 @@ class ProfileUpdateActivity : AppCompatActivity() {
     //Geri dön Butonu
     fun backImageClicked(view: View) {
 
-        val intent = Intent(this, FeedActivity::class.java)
-        intent.putExtra("selectedTab", 5) // AdoptionFragment'ı açmak için seçili sekmenin indeksini iletiyoruz
+        val intent = Intent(applicationContext, FeedActivity::class.java)
         startActivity(intent)
-        finish() // AdoptionCreateActivity'yi kapatıyoruz
+        finish()
+
 
     }
 
@@ -194,10 +199,10 @@ class ProfileUpdateActivity : AppCompatActivity() {
                         binding.usernameInput.text.clear()
                         binding.bioInput.text.clear()
 
-                        val intent = Intent(this, FeedActivity::class.java)
-                        intent.putExtra("selectedTab", 5) // AdoptionFragment'ı açmak için seçili sekmenin indeksini iletiyoruz
+                        val intent = Intent(applicationContext, FeedActivity::class.java)
                         startActivity(intent)
-                        finish() // AdoptionCreateActivity'yi kapatıyoruz
+                        finish()
+
 
                     }.addOnFailureListener { e ->
                         Log.e(TAG, "Kullanıcı bilgileri güncellenirken hata oluştu.", e)
