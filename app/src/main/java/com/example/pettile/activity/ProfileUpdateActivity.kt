@@ -29,12 +29,9 @@ import java.io.IOException
 
 class ProfileUpdateActivity : AppCompatActivity() {
 
-    var selectedPicture: Uri? = null
-    var selectedBitmap: Bitmap? = null
+
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityProfileUpdateBinding
-    private lateinit var permissionLauncher: ActivityResultLauncher<String>
-    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,103 +41,16 @@ class ProfileUpdateActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        registerLauncher()
         auth = Firebase.auth
         db = Firebase.firestore
 
 
     }
 
-
-    //Fotograf Secme Butonu ve izin alma
-    fun changePhotoClicked(view: View) {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_MEDIA_IMAGES
-            ) != PackageManager.PERMISSION_GRANTED ||
-            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO)
-            != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_MEDIA_VIDEO
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_AUDIO,
-                    Manifest.permission.READ_MEDIA_VIDEO
-                ),
-                1
-            )
-            Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Give Permission", View.OnClickListener {
-                    permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                    permissionLauncher.launch(Manifest.permission.READ_MEDIA_AUDIO)
-                    permissionLauncher.launch(Manifest.permission.READ_MEDIA_VIDEO)
-                }).show()
-
-        } else {
-
-            val intentToGallery =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            activityResultLauncher.launch(intentToGallery)
-        }
-
-    }
-
-    private fun registerLauncher() {
-        activityResultLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val intentFromResult = result.data
-                if (intentFromResult != null) {
-                    selectedPicture = intentFromResult.data
-                    try {
-                        if (Build.VERSION.SDK_INT >= 28) {
-                            val source = ImageDecoder.createSource(
-                                this@ProfileUpdateActivity.contentResolver,
-                                selectedPicture!!
-                            )
-                            selectedBitmap = ImageDecoder.decodeBitmap(source)
-                            binding.profileImage.setImageBitmap(selectedBitmap)
-                        } else {
-                            selectedBitmap = MediaStore.Images.Media.getBitmap(
-                                this@ProfileUpdateActivity.contentResolver,
-                                selectedPicture
-                            )
-                            binding.profileImage.setImageBitmap(selectedBitmap)
-                        }
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                }
-            }
-        }
-        permissionLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { result ->
-            if (result) {
-                //permission granted
-                val intentToGallery =
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                activityResultLauncher.launch(intentToGallery)
-            } else {
-                //permission denied
-                Toast.makeText(this@ProfileUpdateActivity, "Permisson needed!", Toast.LENGTH_LONG)
-                    .show()
-            }
-        }
-    }
-
     //Çıkış Yap butonu
     fun signOutButtonClicked(view: View) {
-        // auth değişkenini kullanmadan önce doğru şekilde başlatıldığından emin olun
-        val auth = FirebaseAuth.getInstance()
 
-        // Çıkış yapmadan önce petleri almayı durdurmak için SnapshotListener'ı kaldırın
-        // snapshotListener?.remove()
+        val auth = FirebaseAuth.getInstance()
 
         auth.signOut()
         val intent = Intent(applicationContext, MainActivity::class.java)

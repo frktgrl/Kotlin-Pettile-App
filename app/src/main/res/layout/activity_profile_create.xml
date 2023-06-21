@@ -63,15 +63,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-
         <TextView
-            android:id="@+id/nameLabel"
-            style="@style/edit_profile_label"
-            android:labelFor="@id/nameInput"
-            android:text="Name *"
+            android:id="@+id/selectPhotoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Select a Photo"
+            android:textColor="#020202"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+
+
+    <TextView
+        android:id="@+id/nameLabel"
+        style="@style/edit_profile_label"
+        android:labelFor="@id/nameInput"
+        android:text="Name *"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectPhotoText" />
 
         <EditText
             android:id="@+id/nameInput"

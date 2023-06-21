@@ -181,7 +181,7 @@ class ProfileViewFragment : Fragment() {
 
                         // Takipçi kullanıcının followeing alanına takip edilen kullanıcının bilgilerini ekleyen kod
                         binding.addUserImage.setOnClickListener {
-                            val requesterUserMail = userEmail.toString()
+                            val requesterUserMail = username.toString()
                             val targetUserMail = auth.currentUser?.email.toString()
 
                             db.collection("Users").document(id1)

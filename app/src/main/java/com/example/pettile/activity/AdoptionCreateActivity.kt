@@ -44,7 +44,7 @@ class AdoptionCreateActivity : AppCompatActivity() {
     var selectedBitmap : Bitmap? = null
 
 
-    //Geri butonuna basıldığında AdoptionFragmenta dönmek için (3) değerini gönder
+
     fun backImageClicked(view: View) {
         val intent = Intent(applicationContext, FeedActivity::class.java)
         startActivity(intent)

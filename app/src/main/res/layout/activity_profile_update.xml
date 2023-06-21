@@ -66,28 +66,15 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profileImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="50dp"
-        android:onClick="changePhotoClicked"
-        android:src="@drawable/person"
-        app:civ_border_color="@color/grey"
-        app:civ_border_width="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
 
     <TextView
         android:id="@+id/nameLabel"
         style="@style/edit_profile_label"
+        android:layout_marginTop="50dp"
         android:labelFor="@id/nameInput"
         android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <EditText
         android:id="@+id/nameInput"
@@ -97,7 +84,7 @@
         android:inputType="text"
         android:maxLength="50"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/nameLabel" />
 
     <TextView
         android:id="@+id/usernameLabel"

@@ -32,7 +32,6 @@ class FamilyDataActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-
         binding.familyDataRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
 
         adapter = PetFamilyRecyclerAdapter(petFamilyList)
